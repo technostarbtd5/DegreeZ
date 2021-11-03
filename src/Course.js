@@ -1,12 +1,16 @@
-class Course {
+import React from 'react';
+
+module.exports = class Course extends React.Component {
     #name;
     #code;
     #credits;
-    constructor() {
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        ctx.beginPath();
-        ctx.rect(20, 20, 150, 100);
-        ctx.stroke();
+
+    constructor(_name) {
+        super();
+        this.name = _name;
+    }
+
+    render() {
+        return <h1>Hello, I am {this.name}</h1>;
     }
 }

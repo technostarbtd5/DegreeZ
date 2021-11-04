@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Course from './../Course/Course.js';
 
 let semester_list = [
@@ -43,7 +43,7 @@ let course_list = [
 
 
 
-class SemesterCourses extends React.Component {
+class SemesterCourses extends Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -63,7 +63,7 @@ class SemesterCourses extends React.Component {
     }
 }
 
-class Semester extends React.Component {
+class Semester extends Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -84,7 +84,7 @@ class Semester extends React.Component {
 
 
 
-class Schedule extends React.Component {
+class Schedule extends Component {
     constructor(props) {
         super(props);
         this.state = {}

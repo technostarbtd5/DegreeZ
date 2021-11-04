@@ -1,6 +1,24 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {Card, CardContent, CardActions, IconButton} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { withStyles } from '@material-ui/core/styles';
 
-class CourseContents extends React.Component {
+const styles = theme => ({
+    expand: {
+        // transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        // transition: theme.transitions.create('transform', {
+        //   duration: theme.transitions.duration.shortest,
+        // }),
+      },
+    //   expandOpen: {
+    //     transform: 'rotate(180deg)',
+    //   },
+});
+
+class CourseContents extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,7 +42,7 @@ class CourseContents extends React.Component {
     }
 }
 
-class MinimalCourse extends React.Component {
+class MinimalCourse extends Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -39,39 +57,58 @@ class MinimalCourse extends React.Component {
     }
 }
 
-class Course extends React.Component {
+class Course extends Component {
     constructor(props) {
         super(props);
         this.state = {
             contents_visible: false
         }
-        this.showContents = this.showContents.bind(this);
-        this.hideContents = this.hideContents.bind(this);
+        this.setContentsVisible = this.setContentsVisible.bind(this);
     }
 
-    showContents() {
-        this.setState({ contents_visible: true });
-    }
+    // showContents() {
+    //     this.setState({ contents_visible: true });
+    // }
 
-    hideContents() {
-        this.setState({ contents_visible: false });
+    // hideContents() {
+    //     this.setState({ contents_visible: false });
+    // }
+    setContentsVisible(visible) {
+        this.setState({ contents_visible: visible });
     }
 
     render() {
-        if (this.state.contents_visible) {
-            return (
-                <div className="course">
-                    <MinimalCourse name={this.props.name} showContents={this.showContents} hideContents={this.hideContents} />
-                    <CourseContents name={this.props.name} code={this.props.code} desc={this.props.desc} />
-                </div>
-            );
-        }
+        // if (this.state.contents_visible) {
+        //     return (
+        //         <div className="course">
+        //             <MinimalCourse name={this.props.name} showContents={this.showContents} hideContents={this.hideContents} />
+        //             <CourseContents name={this.props.name} code={this.props.code} desc={this.props.desc} />
+        //         </div>
+        //     );
+        // }
+        // return (
+        //     <div className="course">
+        //         <MinimalCourse name={this.props.name} showContents={this.showContents} hideContents={this.hideContents} />
+        //     </div>
+        // );
+        const {name, code, desc, classes} = this.props;
+        const {contents_visible} = this.state;
         return (
-            <div className="course">
-                <MinimalCourse name={this.props.name} showContents={this.showContents} hideContents={this.hideContents} />
-            </div>
-        );
+            <Card>
+                <CardContent>
+                <MinimalCourse name={name} showContents={() => false} hideContents={() => false} />
+                </CardContent>
+                <CardActions>
+                    <IconButton 
+                        className={classes.expand}
+                        onClick={() => this.setContentsVisible(!contents_visible)}
+                    >
+                        {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </IconButton>
+                </CardActions>
+            </Card>
+        )
     }
 }
 
-export default Course
+export default withStyles(styles)(Course);

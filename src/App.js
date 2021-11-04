@@ -1,6 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 
+<<<<<<< Updated upstream
+=======
+import Schedule from './Components/Schedule/Schedule.js';
+
+>>>>>>> Stashed changes
 function App() {
   return (
     <div className="App">
@@ -22,4 +27,8 @@ function App() {
   );
 }
 
+<<<<<<< Updated upstream
 export default App;
+=======
+export default App;
+>>>>>>> Stashed changes

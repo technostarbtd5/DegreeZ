@@ -20,7 +20,7 @@ function App() {
           Learn React
         </a>
 
-        <Schedule />
+        <Schedule /> 
       </header>
     </div>
   );

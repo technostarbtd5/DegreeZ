@@ -8,8 +8,8 @@ import Schedule from './Components/Schedule/Schedule.js';
 function App() {
   return (
     <ThemeProvider theme={degreez_theme}>
-      <div className="App">
-        <header className="App-header">
+      {/* <div className="App">
+        <header className="App-header"> */}
           {/* <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
@@ -24,8 +24,8 @@ function App() {
           </a> */}
 
           <Schedule /> 
-        </header>
-      </div>
+        {/* </header>
+      </div> */}
     </ThemeProvider>
   );
 }

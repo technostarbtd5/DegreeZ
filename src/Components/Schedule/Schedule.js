@@ -3,58 +3,6 @@ import { Grid, Typography } from '@material-ui/core';
 import React, {Component} from 'react';
 import CourseTile from '../Course/CourseTile.js';
 
-const DUMMY_SCHEDULE = [
-    {
-        term: "Fall",
-        year: "2019",
-        courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
-        ],
-    },
-    {
-        term: "Spring",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Summer",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Fall",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Spring",
-        year: "2021",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Summer",
-        year: "2021",
-        courses: [
-            
-        ],
-    },
-]
-
 const DUMMY_COURSE_LIST = {
     "CSCI": {
         "1100": {
@@ -72,7 +20,42 @@ class Schedule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            schedule: DUMMY_SCHEDULE,
+            schedule: this.props.schedule,
+        }
+    }
+
+    saveFile(Object, FileName, Type) {
+        const JSONSTR = JSON.stringify(Object);
+        const file = new Blob([JSONSTR], {type: Type});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(file);
+        a.download = FileName;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    }
+
+    componentDidUpdate(prevProps) {
+        var last_action = this.props.last_action;
+        if(prevProps.last_action !== last_action) {
+            switch(last_action[0]) {
+                case "saveSchedule":
+                    this.saveFile(this.state.schedule, "DegreeZ Schedule", 'text/plain');
+                    break;
+                case "addSemester":
+                    this.addSemester(last_action[1]);
+                    break;
+                case "removeSemester":
+                    this.removeSemester(last_action[1]);
+                    break;
+                case "addCourse":
+                    this.addCourse(last_action[1], last_action[2]);
+                    break;
+                case "removeCourse":
+                    this.removeCourse(last_action[1], last_action[2]);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     
@@ -150,26 +133,6 @@ class Schedule extends Component {
         const allCourses = DUMMY_COURSE_LIST;
         return (
             <div className="Schedule">
-
-                <button
-                    onClick={() => this.addSemester({term:"Summer",year:"2099"})}> AddSemester
-                </button>
-                <button
-                    onClick={() => this.removeSemester({term:"Summer",year:"2099"})}> RemoveSemester
-                </button>
-                <button
-                    onClick={() => this.addCourse({term:"Summer",year:"2099"}, {
-                        department: "CSCI",
-                        code: "1200",
-                    })}> AddCourse
-                </button>
-                <button
-                    onClick={() => this.removeCourse({term:"Summer",year:"2099"}, {
-                        department: "CSCI",
-                        code: "1200",
-                    })}> RemoveCourse
-                </button>
-
                 {schedule.map(semester => 
                     <Grid container>
                         <Grid item xs={2}>

@@ -1,9 +1,10 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import { ThemeProvider } from '@material-ui/styles';
 import degreez_theme from './Shared/degreez-theme';
 
-import Schedule from './Components/Schedule/Schedule.js';
+import ScheduleInterface from './Components/Schedule/ScheduleInterface.js';
+import Sidebar from './Components/Sidebar/Sidebar.js';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
             Learn React
           </a> */}
 
-          <Schedule /> 
+          <ScheduleInterface />
+          <Sidebar />
         {/* </header>
       </div> */}
     </ThemeProvider>

@@ -1,4 +1,5 @@
 import { Grid, Typography } from '@material-ui/core';
+//import { ViewCarousel } from '@material-ui/icons';
 import React, {Component} from 'react';
 import CourseTile from '../Course/CourseTile.js';
 
@@ -21,70 +22,35 @@ const DUMMY_SCHEDULE = [
         term: "Spring",
         year: "2020",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
+            
         ],
     },
     {
         term: "Summer",
         year: "2020",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
+            
         ],
     },
     {
         term: "Fall",
         year: "2020",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
+            
         ],
     },
     {
         term: "Spring",
         year: "2021",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
+            
         ],
     },
     {
         term: "Summer",
         year: "2021",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
+            
         ],
     },
 ]
@@ -109,12 +75,101 @@ class Schedule extends Component {
             schedule: DUMMY_SCHEDULE,
         }
     }
+    
+    // Given a semester {term:String, year:String}, returns the index of the semester within the schedule
+    getSemesterIndex(semester) {
+        for (var i = 0; i < this.state.schedule.length; i++) {
+            const sem = this.state.schedule[i];
+            if (sem.term === semester.term && sem.year === semester.year) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Given a course {department:String, code:String}, returns the index of the course within the semester
+    getCourseIndex(semester, course) {
+        for (var i = 0; i < semester.length; i++) {
+            const cour = semester[i];
+            if (cour.department === course.department && cour.code === course.code) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    // Attempts to add a semester to the schedule
+    addSemester(semester) {
+        const sem_index = this.getSemesterIndex(semester);
+        if (sem_index === -1) {
+            var sched = this.state.schedule;
+            sched.push({
+                term: semester.term,
+                year: semester.year,
+                courses: []
+            });
+            this.setState({schedule: sched});
+        }
+    }
+    
+    // Attempts to remove a semester from the schedule
+    removeSemester(semester) {
+        const sem_index = this.getSemesterIndex(semester);
+        if (sem_index >= 0) {
+            var sched = this.state.schedule;
+            sched.splice(sem_index, 1);
+            this.setState({schedule: sched});
+        }
+    }
+    
+    // Attempts to add a course to a semester
+    addCourse(semester, course) {
+        const sem_index = this.getSemesterIndex(semester);
+        if (sem_index >= 0) {
+            var sched = this.state.schedule;
+            sched[sem_index].courses.push(course);
+            this.setState({schedule: sched});
+        }
+    }
+    
+    // Attempts to remove a course from a semester
+    removeCourse(semester, course) {
+        const sem_index = this.getSemesterIndex(semester);
+        if (sem_index >= 0) {
+            var sched = this.state.schedule;
+            const cour_index = this.getCourseIndex(sched[sem_index].courses, course);
+            if (cour_index >= 0) {
+                sched[sem_index].courses.splice(cour_index, 1);
+                this.setState({schedule: sched});
+            }
+        }
+    }
 
     render() {
         const {schedule} = this.state;
         const allCourses = DUMMY_COURSE_LIST;
         return (
-            <>
+            <div className="Schedule">
+
+                <button
+                    onClick={() => this.addSemester({term:"Summer",year:"2099"})}> AddSemester
+                </button>
+                <button
+                    onClick={() => this.removeSemester({term:"Summer",year:"2099"})}> RemoveSemester
+                </button>
+                <button
+                    onClick={() => this.addCourse({term:"Summer",year:"2099"}, {
+                        department: "CSCI",
+                        code: "1200",
+                    })}> AddCourse
+                </button>
+                <button
+                    onClick={() => this.removeCourse({term:"Summer",year:"2099"}, {
+                        department: "CSCI",
+                        code: "1200",
+                    })}> RemoveCourse
+                </button>
+
                 {schedule.map(semester => 
                     <Grid container>
                         <Grid item xs={2}>
@@ -137,7 +192,7 @@ class Schedule extends Component {
                         
                     </Grid>
                 )}
-            </>
+            </div>
         )
     }
 }

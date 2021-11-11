@@ -67,6 +67,11 @@ ol.course-contents {
   justify-content: space-evenly;
 }
 
-.schedule {
+
+.ScheduleInterface {
   width: 80%;
+}
+
+.Sidebar {
+  width: 20%;
 }

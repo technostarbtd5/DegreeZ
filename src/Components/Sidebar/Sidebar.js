@@ -1,52 +1,41 @@
-//import { Grid, Typography } from '@material-ui/core';
-import React, {Component} from 'react';
+import * as React from 'react';
+import Drawer from '@material-ui/core/Drawer';
 
-const DUMMY_MAJORS_LIST = {
-    "CSCI": ["1100", "1200"]
-}
+import { makeStyles, Typography } from '@material-ui/core';
+import CourseTile from '../Course/CourseTile';
+const drawerWidth = 480
+const useStyles = makeStyles({
+    drawer:{
+        width: drawerWidth
 
-const DUMMY_COURSE_LIST = {
-    "CSCI": {
-        "1100": {
-            name: "Computer Science I",
-            desc: "An introduction to computer programming ..."
-        },
-        "1200": {
-            name: "Data Structures",
-            desc: "Programming concepts: functions, parameter passing, ..."
-        },
     },
-}
+    drawerPaper:{
+        width: drawerWidth
 
-class Sidebar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            majors: DUMMY_MAJORS_LIST,
-            courses: DUMMY_COURSE_LIST,
-        }
     }
+})
 
-    getAllCourses() {
-        // TODO
-    }
 
-    getMajorCourses(major) {
-        // TODO
-    }
 
-    getCourse(course) {
-        // TODO
-    }
 
-    render() {
-        return (
-            <div className="Sidebar">
-                
+
+export default function PermanentDrawer() {
+const classes = useStyles() 
+  return (
+    <div>
+        <Drawer
+        className = {classes.drawer}
+        variant = "permanent"
+        anchor = "right">
+            <div>
+              
+                <Typography align="center" variant="h6">Classes    List:</Typography>
+                <CourseTile name={"Computer Science I"} desc={"An introduction to computer programming ..."} code={"CSCI1100"}/>
+                <CourseTile name={"Data Structures"} desc={"Programming concepts: functions, parameter passing, ..."} code={"CSCI1200"}/>
+                <CourseTile name={"Calculus 1"} desc={"Functions, limits, continuity, derivatives, ..."} code={"MATH1010"}/>
+                <CourseTile name={"Calculus 2"} desc={"Techniques and applications of integration, polar coordinates."} code={"MATH1020"}/>
             </div>
-        )
-    }
+        </Drawer>
+    </div>
+  );
 }
-
-
-export default Sidebar

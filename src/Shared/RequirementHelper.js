@@ -8,6 +8,8 @@ const DEBUG_MODE = false;
  * @typedef {Object} CourseCode
  * @property {String} department Department code.
  * @property {String} code Numeric course code.
+ * @property {String} requirementName Optional. Represents a short text blurb describing the requirement.
+ * @property {Boolean} optional Indicates that this requirement is optional and purely for display purposes. This argument is also optional to include.
  */
 
 /**
@@ -16,6 +18,7 @@ const DEBUG_MODE = false;
  * @property {Requirement[]} allOf Sub-requirements.
  * @property {String} requirementName Optional. Represents a short text blurb describing the requirement.
  * @property {Boolean} independentRequirements Optional. If set to true, a course passed to this requirement may be used to satisfy multiple sub-requirements. Otherwise, each course can only satisfy one requirement at most.
+ * @property {Boolean} optional Indicates that this requirement is optional and purely for display purposes. This argument is also optional to include.
  */
 
 /**
@@ -25,6 +28,7 @@ const DEBUG_MODE = false;
  * @property {Number} n Number of sub-requirements that must be satisfied to complete this requirement.
  * @property {String} requirementName Optional. Represents a short text blurb describing the requirement.
  * @property {Boolean} independentRequirements Optional. If set to true, a course passed to this requirement may be used to satisfy multiple sub-requirements. Otherwise, each course can only satisfy one requirement at most.
+ * @property {Boolean} optional Indicates that this requirement is optional and purely for display purposes. This argument is also optional to include.
  */
 
 /**
@@ -45,9 +49,11 @@ export function checkCompletion(requirement, courses) {
   }
   // Taking a course twice doesn't count twice
   courses = uniqWith(cloneDeep(courses), isEqual);
-  if (isCourse(requirement)) {
+  if (requirement.optional) {
+    return true;
+  } else if (isCourse(requirement)) {
     return some(courses, requirement);
-  }
+  }  
   if (requirement.independentRequirements) {
     const fullDistribution = getRequirements(requirement).map(() => courses);
     if (DEBUG_MODE) {

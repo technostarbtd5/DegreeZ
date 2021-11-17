@@ -1,0 +1,490 @@
+{
+  "allOf": [
+    {
+      "allOf": [
+        {
+          "department": "CSCI",
+          "code": "1100",
+          "optional": true
+        },
+        {
+          "department": "CSCI",
+          "code": "1200"
+        },
+        {
+          "department": "CSCI",
+          "code": "2200"
+        },
+        {
+          "department": "CSCI",
+          "code": "2300"
+        },
+        {
+          "department": "CSCI",
+          "code": "2500"
+        },
+        {
+          "department": "CSCI",
+          "code": "2600"
+        },
+        {
+          "department": "CSCI",
+          "code": "4210"
+        },
+        {
+          "department": "CSCI",
+          "code": "4430"
+        },
+        {
+          "department": "MATH",
+          "code": "1010"
+        },
+        {
+          "department": "MATH",
+          "code": "1020"
+        },
+        {
+          "department": "PHYS",
+          "code": "1100"
+        },
+        {
+          "department": "BIOL",
+          "code": "1010"
+        },
+        {
+          "department": "BIOL",
+          "code": "1015"
+        }
+      ],
+      "requirementName": "Computer Science Core"
+    },
+    {
+      "nOf": [
+        {
+          "department": "CHEM",
+          "code": "1100"
+        }
+      ],
+      "n": 1,
+      "requirementName": "Science Option"
+    },
+    {
+      "allOf": [
+        {
+          "nOf": [
+            {
+              "department": "MATH",
+              "code": "2010"
+            },
+            {
+              "department": "MATH",
+              "code": "4030"
+            },
+            {
+              "department": "MATH",
+              "code": "4040"
+            },
+            {
+              "department": "MATH",
+              "code": "4100"
+            },
+            {
+              "department": "MATP",
+              "code": "4600"
+            }
+          ],
+          "n":1,
+          "requirementName": "Math Option 1"
+        },
+        {
+          "nOf": [
+            {
+              "department": "MATH",
+              "code": "2010"
+            },
+            {
+              "department": "MATH",
+              "code": "2400"
+            },
+            {
+              "department": "MATH",
+              "code": "4030"
+            },
+            {
+              "department": "MATH",
+              "code": "4040"
+            },
+            {
+              "department": "MATH",
+              "code": "4100"
+            },
+            {
+              "department": "MATP",
+              "code": "4600"
+            }
+          ],
+          "n":1,
+          "requirementName": "Math Option 2"
+        }
+      ],
+      "requirementName": "Math Option"
+    },
+    {
+      "nOf": [
+        {
+          "department": "CSCI",
+          "code": "4020"
+        },
+        {
+          "department": "CSCI",
+          "code": "4030"
+        },
+        {
+          "department": "CSCI",
+          "code": "4040"
+        },
+        {
+          "department": "CSCI",
+          "code": "4100"
+        },
+        {
+          "department": "CSCI",
+          "code": "4110"
+        },
+        {
+          "department": "CSCI",
+          "code": "4120"
+        },
+        {
+          "department": "CSCI",
+          "code": "4150"
+        },
+        {
+          "department": "CSCI",
+          "code": "4220"
+        },
+        {
+          "department": "CSCI",
+          "code": "4230"
+        },
+        {
+          "department": "CSCI",
+          "code": "4250"
+        },
+        {
+          "department": "CSCI",
+          "code": "4260"
+        },
+        {
+          "department": "CSCI",
+          "code": "4270"
+        },
+        {
+          "department": "CSCI",
+          "code": "4310"
+        },
+        {
+          "department": "CSCI",
+          "code": "4320"
+        },
+        {
+          "department": "CSCI",
+          "code": "4340"
+        },
+        {
+          "department": "CSCI",
+          "code": "4350"
+        },
+        {
+          "department": "CSCI",
+          "code": "4370"
+        },
+        {
+          "department": "CSCI",
+          "code": "4380"
+        },
+        {
+          "department": "CSCI",
+          "code": "4390"
+        },
+        {
+          "department": "CSCI",
+          "code": "4400"
+        },
+        {
+          "department": "CSCI",
+          "code": "4420"
+        },
+        {
+          "department": "CSCI",
+          "code": "4440"
+        },
+        {
+          "department": "CSCI",
+          "code": "4450"
+        },
+        {
+          "department": "CSCI",
+          "code": "4460"
+        },
+        {
+          "department": "CSCI",
+          "code": "4470"
+        },
+        {
+          "department": "CSCI",
+          "code": "4480"
+        },
+        {
+          "department": "CSCI",
+          "code": "4500"
+        },
+        {
+          "department": "CSCI",
+          "code": "4510"
+        },
+        {
+          "department": "CSCI",
+          "code": "4530"
+        },
+        {
+          "department": "CSCI",
+          "code": "4540"
+        },
+        {
+          "department": "CSCI",
+          "code": "4550"
+        },
+        {
+          "department": "CSCI",
+          "code": "4600"
+        },
+        {
+          "department": "CSCI",
+          "code": "4700"
+        },
+        {
+          "department": "CSCI",
+          "code": "4800"
+        },
+        {
+          "department": "CSCI",
+          "code": "4820"
+        }
+      ],
+      "n": 4,
+      "requirementName": "Computer Science Options"
+    },
+    {
+      "nOf": [
+        {
+          "department": "CSCI",
+          "code": "4941",
+          "requirementName": "Research Capstone"
+        },
+        {
+          "nOf": [
+            {
+              "nOf": [
+                {
+                  "department": "CSCI",
+                  "code": "4020"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4030"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4040"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4100"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4110"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4120"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4150"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4230"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4250"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4260"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4420"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4450"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4510"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4800"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4820"
+                }
+              ],
+              "n": 3,
+              "requirementName": "Theory and Algorithms"
+            },
+            {
+              "nOf": [
+                {
+                  "department": "CSCI",
+                  "code": "4220"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4310"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4320"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4380"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4440"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4450"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4460"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4470"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4500"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4510"
+                }
+              ],
+              "n": 3,
+              "requirementName": "Systems and Software"
+            },
+            {
+              "nOf": [
+                {
+                  "department": "CSCI",
+                  "code": "4100"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4110"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4150"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4270"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4340"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4350"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4380"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4390"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4400"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4420"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4480"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4600"
+                }
+              ],
+              "n": 3,
+              "requirementName": "Artificial Intelligence and Data"
+            },
+            {
+              "nOf": [
+                {
+                  "department": "CSCI",
+                  "code": "4270"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4320"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4480"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4530"
+                },
+                {
+                  "department": "CSCI",
+                  "code": "4550"
+                }
+              ],
+              "n": 3,
+              "requirementName": "Applications"
+            }
+          ],
+          "n": 1,
+          "requirementName": "Coursework Concentration Capstone"
+        }
+      ],
+      "n": 1,
+      "requirementName": "Computer Science Capstone"
+    }
+  ],
+  "requirementName": "Computer Science Major",
+  "independentRequirements": true
+}

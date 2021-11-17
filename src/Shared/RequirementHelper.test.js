@@ -74,6 +74,11 @@ const ALLOF_ALLCOURSES_FLAT = {
   allOf: cloneDeep(ALL_COURSES)
 };
 
+const ALLOF_ALLCOURSES_OPTIONAL = {
+  allOf: cloneDeep(ALL_COURSES),
+  optional: true
+}
+
 const ALLOF_REQUIREMENT_FLAT = {
   allOf: [
     cloneDeep(COURSE_CODE_CSCI1100),
@@ -240,6 +245,11 @@ test("getLeaves on nested requirement returns array containing all leaves", () =
 
 test("getLeaves on pigeonhole requirement returns array containing all leaves, potentially with some repeated", () => {
   expect(getLeaves(PIGEONHOLE_REQUIREMENTS_NORMAL)).toEqual(expect.arrayContaining(ALL_PIGEONHOLE_REQUIREMENT_LEAVES));
+})
+
+// Any optional requirement is skipped
+test("Optional requirements can be skipped", () => {
+  expect(checkCompletion(ALLOF_ALLCOURSES_OPTIONAL, NO_COURSES)).toBeTruthy();
 })
 
 // Single course requirement

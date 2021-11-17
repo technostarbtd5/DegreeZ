@@ -1,4 +1,4 @@
-import { some, cloneDeep, range } from 'lodash';
+import { some, cloneDeep, range, uniqWith, isEqual } from 'lodash';
 
 // Simple toggle for debugging
 const DEBUG_MODE = false;
@@ -43,11 +43,17 @@ export function checkCompletion(requirement, courses) {
   if (DEBUG_MODE) {
     console.log(`Checking completion for requirement ${JSON.stringify(requirement)} with courses ${JSON.stringify(courses)}`)
   }
+  // Taking a course twice doesn't count twice
+  courses = uniqWith(cloneDeep(courses), isEqual);
   if (isCourse(requirement)) {
     return some(courses, requirement);
   }
   if (requirement.independentRequirements) {
     const fullDistribution = getRequirements(requirement).map(() => courses);
+    if (DEBUG_MODE) {
+      console.log(`Testing distribution ${JSON.stringify(fullDistribution)} on requirement ${JSON.stringify(requirement)}`);
+      console.log(fullDistribution);
+    }
     return testDistribution(requirement, fullDistribution);
   } else {
     const emptyDistribution = getRequirements(requirement).map(() => []);
@@ -68,6 +74,7 @@ function testAllDistributions(requirement, courses, distribution, courseIndex) {
   if (courseIndex < courses.length) {
     // Optimization: Since only up to n requirements need to be fulfilled, only test course distributions using up to n requirements.
     const numActivelyTestedRequirements = distribution.map(requirementCourses => requirementCourses.length).filter(length => length).length;
+    let courseAddedToNewDistribution = false;
     for (const reqIndex in range(distribution.length)) {
       const newDistribution = cloneDeep(distribution);
       const newCourse = courses[courseIndex];
@@ -80,9 +87,16 @@ function testAllDistributions(requirement, courses, distribution, courseIndex) {
         // Optimization: Don't try to test using a course on a requirement if it's not one of the requirement's leaves.
         if (some(getLeaves(subReq), newCourse)) {
           newDistribution[reqIndex].push(newCourse);
+          courseAddedToNewDistribution = true;
           if (testAllDistributions(requirement, courses, newDistribution, newCourseIndex)) return true;
         }
       }
+    }
+    // Optimization: Allow courses not in any leaves to be skipped
+    if (!courseAddedToNewDistribution) {
+      const newDistribution = cloneDeep(distribution);
+      const newCourseIndex = courseIndex + 1;
+      if (testAllDistributions(requirement, courses, newDistribution, newCourseIndex)) return true;
     }
   }
   return false;

@@ -1,4 +1,7 @@
-import { contains, cloneDeep, range } from 'lodash';
+import { some, cloneDeep, range } from 'lodash';
+
+// Simple toggle for debugging
+const DEBUG_MODE = false;
 
 /**
  * An object representing a course's code. 
@@ -37,8 +40,11 @@ import { contains, cloneDeep, range } from 'lodash';
  * @returns boolean of whether or not a requirement is satisfied by a set of courses
  */
 export function checkCompletion(requirement, courses) {
+  if (DEBUG_MODE) {
+    console.log(`Checking completion for requirement ${JSON.stringify(requirement)} with courses ${JSON.stringify(courses)}`)
+  }
   if (isCourse(requirement)) {
-    return contains(courses, requirement);
+    return some(courses, requirement);
   }
   if (requirement.independentRequirements) {
     const fullDistribution = getRequirements(requirement).map(() => courses);
@@ -62,14 +68,17 @@ function testAllDistributions(requirement, courses, distribution, courseIndex) {
   if (courseIndex < courses.length) {
     // Optimization: Since only up to n requirements need to be fulfilled, only test course distributions using up to n requirements.
     const numActivelyTestedRequirements = distribution.map(requirementCourses => requirementCourses.length).filter(length => length).length;
-    for (reqIndex in range(distribution.length)) {
+    for (const reqIndex in range(distribution.length)) {
       const newDistribution = cloneDeep(distribution);
       const newCourse = courses[courseIndex];
       const newCourseIndex = courseIndex + 1;
       const subReq = getRequirements(requirement)[reqIndex];
+      if (DEBUG_MODE) {
+        console.log(`Testing adding ${JSON.stringify(newCourse)} (reqIndex: ${reqIndex}) to subreq ${JSON.stringify(subReq)} on distribution ${JSON.stringify(newDistribution)} with newCourseIndex ${newCourseIndex} and ${numActivelyTestedRequirements} actively tested requirements versus ${getN(requirement)} max tested requirements`);
+      }
       if (newDistribution[reqIndex].length || numActivelyTestedRequirements < getN(requirement)) {
         // Optimization: Don't try to test using a course on a requirement if it's not one of the requirement's leaves.
-        if (contains(getLeaves(subReq), newCourse)) {
+        if (some(getLeaves(subReq), newCourse)) {
           newDistribution[reqIndex].push(newCourse);
           if (testAllDistributions(requirement, courses, newDistribution, newCourseIndex)) return true;
         }
@@ -86,10 +95,14 @@ function testAllDistributions(requirement, courses, distribution, courseIndex) {
  * @returns Boolean of whether or not the current distribution satisfies requirement.
  */
 function testDistribution(requirement, distribution) {
+  if (DEBUG_MODE) {
+    console.log(`Testing distribution ${JSON.stringify(distribution)} on requirement ${JSON.stringify(requirement)} with subreqs ${JSON.stringify(getRequirements(requirement))} (range: ${JSON.stringify(range(getRequirements(requirement).length))})`);
+  }
   let completedSubReqCount = 0;
-  for (index in range(getRequirements(requirement))) {
+  for (const index in range(getRequirements(requirement).length)) {
     const subReq = getRequirements(requirement)[index];
     const courses = distribution[index];
+    if (DEBUG_MODE) console.log(`Testing subReq ${JSON.stringify(subReq)} with courses ${JSON.stringify(courses)} and completedSubReqCount ${completedSubReqCount}`);
     if (checkCompletion(subReq, courses)) completedSubReqCount++;
     if (completedSubReqCount >= getN(requirement)) return true;
   }
@@ -102,7 +115,8 @@ function testDistribution(requirement, distribution) {
  * @returns Integer count of sub-requirements necessary to satisfy a requirement.
  */
 function getN(requirement) {
-  return requirement.n ?? requirement.allOf?.length ?? isCourse(requirement) ? 1 : 0;
+  if (DEBUG_MODE) console.log(`Getting n for requirement ${JSON.stringify(requirement)} with n ${requirement.n} and allOf length ${requirement.allOf?.length}`);
+  return requirement.n ?? requirement.allOf?.length ?? (isCourse(requirement) ? 1 : 0);
 }
 
 /**
@@ -119,9 +133,9 @@ function getRequirements(requirement) {
  * @param {Requirement} requirement Requirement object.
  * @returns An array of CourseCode objects.
  */
-function getLeaves(requirement) {
+export function getLeaves(requirement) {
   if (isCourse(requirement)) {
-    return requirement;
+    return [requirement];
   }
   if (requirement.leaves) {
     return requirement.leaves;

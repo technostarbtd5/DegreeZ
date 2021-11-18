@@ -52,7 +52,8 @@ export function checkCompletion(requirement, courses) {
   if (requirement.optional) {
     return true;
   } else if (isCourse(requirement)) {
-    return some(courses, requirement);
+    const {department, code} = requirement;
+    return some(courses, {department, code});
   }  
   if (requirement.independentRequirements) {
     const fullDistribution = getRequirements(requirement).map(() => courses);
@@ -134,7 +135,7 @@ function testDistribution(requirement, distribution) {
  * @param {Requirement} requirement Requirement object.
  * @returns Integer count of sub-requirements necessary to satisfy a requirement.
  */
-function getN(requirement) {
+export function getN(requirement) {
   if (DEBUG_MODE) console.log(`Getting n for requirement ${JSON.stringify(requirement)} with n ${requirement.n} and allOf length ${requirement.allOf?.length}`);
   return requirement.n ?? requirement.allOf?.length ?? (isCourse(requirement) ? 1 : 0);
 }
@@ -144,7 +145,7 @@ function getN(requirement) {
  * @param {Requirement} requirement Requirement object.
  * @returns Array of sub-requirements
  */
-function getRequirements(requirement) {
+export function getRequirements(requirement) {
   return requirement.allOf ?? requirement.nOf ?? [];
 }
 
@@ -155,7 +156,8 @@ function getRequirements(requirement) {
  */
 export function getLeaves(requirement) {
   if (isCourse(requirement)) {
-    return [requirement];
+    const {department, code} = requirement;
+    return [{department, code}];
   }
   if (requirement.leaves) {
     return requirement.leaves;
@@ -171,6 +173,6 @@ export function getLeaves(requirement) {
  * @param {Requirement} requirement Requirement object.
  * @returns A truthy value if requirement is an instance of CourseCode or a falsy value otherwise.
  */
-function isCourse(requirement) {
+export function isCourse(requirement) {
   return requirement.department && requirement.code;
 }

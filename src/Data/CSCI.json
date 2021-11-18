@@ -5,6 +5,7 @@
         {
           "department": "CSCI",
           "code": "1100",
+          "requirementName": "Computer Science 1",
           "optional": true
         },
         {

@@ -1,6 +1,8 @@
 //import { Grid, Typography } from '@material-ui/core';
 import React, {Component} from 'react';
+import { DragDropContext } from "react-beautiful-dnd";
 import Schedule from '../Schedule/Schedule.js';
+import Sidebar from '../Sidebar/Sidebar.js';
 
 
 const DUMMY_SCHEDULE = [
@@ -8,83 +10,24 @@ const DUMMY_SCHEDULE = [
         term: "Fall",
         year: "2019",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
-        ],
-    },
-    {
-        term: "Spring",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Summer",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Fall",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Spring",
-        year: "2021",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Summer",
-        year: "2021",
-        courses: [
             
         ],
     },
 ]
 
-
-class CreateScheduleButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    render() {
-        return (
-            <button onClick={() => this.props.newSchedule()}>
-                Create Schedule
-            </button>
-        )
-    }
+const DUMMY_COURSE_LIST = {
+    "CSCI": {
+        "1100": {
+            name: "Computer Science I",
+            desc: "An introduction to computer programming ..."
+        },
+        "1200": {
+            name: "Data Structures",
+            desc: "Programming concepts: functions, parameter passing, ..."
+        },
+    },
 }
 
-class RemoveScheduleButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    render() {
-        return (
-            <button onClick={() => this.props.removeSchedule()}>
-                Remove Schedule
-            </button>
-        )
-    }
-}
 
 class ScheduleInterface extends Component {
     constructor(props) {
@@ -92,10 +35,8 @@ class ScheduleInterface extends Component {
         this.state = {
             schedule_loaded: false,
             schedule: null,
-            last_action: null
+            takingCourses: []
         }
-        this.newSchedule = this.newSchedule.bind(this);
-        this.removeSchedule = this.removeSchedule.bind(this);
     }
 
     newSchedule(major = null) {
@@ -104,13 +45,19 @@ class ScheduleInterface extends Component {
     }
 
     removeSchedule() {
-        this.setState({schedule_loaded: false});
+        this.setState({schedule_loaded: false, schedule: null});
     }
 
-    saveSchedule() {
-        if(this.state.schedule_loaded){
-            this.setState({last_action: ["saveSchedule"]});
-        }
+    saveSchedule(Object, FileName, Type) {
+        if(!this.state.schedule_loaded){return;}
+        
+        const JSONSTR = JSON.stringify(Object);
+        const file = new Blob([JSONSTR], {type: Type});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(file);
+        a.download = FileName;
+        a.click();
+        URL.revokeObjectURL(a.href);
     }
 
     loadSchedule() {
@@ -132,53 +79,191 @@ class ScheduleInterface extends Component {
             input.click();
         }
     }
+    
+    // Given a semester {term:String, year:String}, returns the index of the semester within the schedule
+    getSemesterIndex(semester) {
+        for (var i = 0; i < this.state.schedule.length; i++) {
+            const sem = this.state.schedule[i];
+            if (sem.term === semester.term && sem.year === semester.year) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-    addSemester(semester) {
-        if(this.state.schedule_loaded){
-            this.setState({last_action: ["addSemester", semester]});
+    // Given a course {department:String, code:String}, returns the index of the course within the list
+    getCourseIndex(list, course) {
+        for (var i = 0; i < list.length; i++) {
+            const cour = list[i];
+            if (cour.department === course.department && cour.code === course.code) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    // Attempts to add a semester to the schedule
+    addSemester(semester = null) {
+        if(!this.state.schedule_loaded){return;}
+
+        var sched = this.state.schedule;
+        const last_sem = sched[this.state.schedule.length-1];
+
+        var next_term;
+        var next_year;
+        if (!semester) {
+            next_year = parseInt(last_sem.year, 10);
+            switch(last_sem.term) {
+                case "Fall":
+                    next_term = "Spring";
+                    next_year++;
+                    break;
+                case "Spring":
+                    next_term = "Summer";
+                    break;
+                case "Summer":
+                    next_term = "Fall";
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            next_term = semester.term;
+            next_year = semester.year;
+        }
+        
+        sched.push({
+            term: next_term,
+            year: next_year.toString(),
+            courses: []
+        });
+        this.setState({schedule: sched});
+    }
+    
+    // Attempts to remove a semester from the schedule
+    removeSemester(index = null) {
+        if(!this.state.schedule_loaded){return;}
+
+        var sched = this.state.schedule;
+        if (sched.length > 0) {
+            const sem_index = (index || sched.length-1);
+
+            // Remove all courses from semester before removing semester itself
+            var this_sem = this.state.schedule[sem_index];
+            for (var i = 0; i < this_sem.courses.length; i++) {
+                this.removeCourse(this_sem, this_sem.courses[i]);
+            }
+
+            sched.splice(sem_index, 1);
+            this.setState({schedule: sched});
         }
     }
     
-    removeSemester(semester) {
-        if(this.state.schedule_loaded){
-            this.setState({last_action: ["removeSemester", semester]});
-        }
-    }
-
+    // Attempts to add a course to a semester
     addCourse(semester, course) {
-        if(this.state.schedule_loaded){
-            this.setState({last_action: ["addCourse", semester, course]});
+        if(!this.state.schedule_loaded){return;}
+
+        const sem_index = this.getSemesterIndex(semester);
+        if (sem_index >= 0) {
+            var sched = this.state.schedule;
+            sched[sem_index].courses.push(course);
+            this.setState({schedule: sched});
+
+            // Update list of all courses we are taking
+            const taking_cour_index = this.getCourseIndex(this.state.takingCourses, course);
+            if (taking_cour_index === -1) {
+                this.state.takingCourses.push(course);
+                this.setState({takingCourses: this.state.takingCourses});
+            }
+        }
+    }
+    
+    // Attempts to remove a course from a semester
+    removeCourse(semester, course) {
+        if(!this.state.schedule_loaded){return;}
+
+        const sem_index = this.getSemesterIndex(semester);
+        if (sem_index >= 0) {
+            var sched = this.state.schedule;
+            const cour_index = this.getCourseIndex(sched[sem_index].courses, course);
+            if (cour_index >= 0) {
+                sched[sem_index].courses.splice(cour_index, 1);
+                this.setState({schedule: sched});
+
+                // Update list of all courses we are taking
+                const taking_cour_index = this.getCourseIndex(this.state.takingCourses, course);
+                if (taking_cour_index >= 0) {
+                    this.state.takingCourses.splice(taking_cour_index, 1);
+                    this.setState({takingCourses: this.state.takingCourses});
+                }
+            }
         }
     }
 
-    removeCourse(semester, course) {
-        if(this.state.schedule_loaded){
-            this.setState({last_action: ["removeCourse", semester, course]});
+
+
+    onDragEnd = (result) => {
+        const { source, destination, draggableId } = result;
+        console.log(result);
+      
+        // dropped outside the list
+        if (!destination) {
+            return;
+        }
+      
+        const course_terms = draggableId.split('-');
+        const source_terms = source.droppableId.split('-');
+        const dest_terms = destination.droppableId.split('-');
+        //console.log(source_terms);
+        //console.log(dest_terms);
+        //console.log(course_terms);
+        if (source.droppableId === destination.droppableId) {
+            return;
+        } else {
+            if (dest_terms[0] === "semester") {
+                if (source_terms[0] === "semester") {
+                    this.removeCourse(
+                        {term: source_terms[1], year: source_terms[2]},
+                        {department: course_terms[0], code: course_terms[1]}
+                    );
+                }
+                this.addCourse(
+                    {term: dest_terms[1], year: dest_terms[2]},
+                    {department: course_terms[0], code: course_terms[1]}
+                );
+            } else if (source_terms[0] === "semester" && dest_terms[0] === "sidebar") {
+                this.removeCourse(
+                    {term: source_terms[1], year: source_terms[2]},
+                    {department: course_terms[0], code: course_terms[1]}
+                );
+            }
         }
     }
 
     render() {
         return (
-            <div className="ScheduleInterface">
-                {this.state.schedule_loaded
-                    ? <div>
-                        <RemoveScheduleButton removeSchedule={this.removeSchedule}/>
+            <DragDropContext onDragEnd={this.onDragEnd}>
 
-                        <button onClick={() => this.saveSchedule()}> SaveSchedule </button>
-                        <button onClick={() => this.addSemester({term:"Summer",year:"2099"})}> AddSemester </button>
-                        <button onClick={() => this.removeSemester({term:"Summer",year:"2099"})}> RemoveSemester </button>
-                        <button onClick={() => this.addCourse({term:"Summer",year:"2099"}, {department: "CSCI", code: "1200"})}> AddCourse </button>
-                        <button onClick={() => this.removeCourse({term:"Summer",year:"2099"}, {department: "CSCI", code: "1200"})}> RemoveCourse </button>
+                <div className="ScheduleInterface">
+                    {this.state.schedule_loaded
+                        ? <div>
+                            <button onClick={() => this.removeSchedule()}> Remove Schedule </button>
+                            <button onClick={() => this.saveSchedule()}> Save Schedule </button>
+                            <button onClick={() => this.addSemester()}> Add Semester </button>
+                            <button onClick={() => this.removeSemester()}> Remove Semester </button>
 
-                        <Schedule schedule={this.state.schedule} last_action={this.state.last_action}/>
-                    </div>
-                    : <div>
-                        <CreateScheduleButton newSchedule={this.newSchedule}/>
+                            <Schedule schedule={this.state.schedule} allCourses={DUMMY_COURSE_LIST} />
+                        </div>
+                        : <div>
+                            <button onClick={() => this.newSchedule()}> Create Schedule </button>
+                            <button onClick={() => this.loadSchedule()}> Load Schedule </button>
+                        </div>
+                    }
+                </div>
 
-                        <button onClick={() => this.loadSchedule()}> LoadSchedule </button>
-                    </div>
-                }
-            </div>
+                <Sidebar courses={this.state.takingCourses}/>
+
+            </DragDropContext>
         )
     }
 }

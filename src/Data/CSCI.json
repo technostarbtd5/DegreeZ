@@ -487,5 +487,6 @@
     }
   ],
   "requirementName": "Computer Science Major",
-  "independentRequirements": true
+  "independentRequirements": true,
+  "dropEnabled": true
 }

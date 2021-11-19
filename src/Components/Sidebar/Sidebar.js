@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Drawer, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { cloneDeepWith, some } from 'lodash';
+import { some } from 'lodash';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckIcon from '@material-ui/icons/Check';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
@@ -9,8 +9,11 @@ import { red, yellow, green } from '@material-ui/core/colors';
 import { checkCompletion, isCourse, getRequirements, getLeaves } from '../../Shared/RequirementHelper';
 import CSCI from "../../Data/CSCI.json";
 
+import { Droppable } from "react-beautiful-dnd";
+
 import { makeStyles, Typography } from '@material-ui/core';
 import CourseTile from '../Course/CourseTile';
+
 const drawerWidth = 480
 const useStyles = makeStyles({
     drawer:{
@@ -34,8 +37,8 @@ const useStyles = makeStyles({
 })
 
 function CourseTileFromCode(props) {
-    const {department, code} = props;
-    return <CourseTile code={`${department} ${code}`}/>
+    const {department, code, index, reqName} = props;
+    return <CourseTile department={department} code={code} reqName={reqName} index={index}/>
 }
 
 function Requirement(props) {
@@ -43,10 +46,10 @@ function Requirement(props) {
     const {requirement, courses} = props;
     const {department, code} = requirement;
     const requirementInCourses = some(courses, {department, code});
-    console.log(requirementInCourses);
+    //console.log(requirementInCourses);
     if (requirementInCourses) {
-        console.log(courses);
-        console.log({department, code});
+        //console.log(courses);
+        //console.log({department, code});
     }
     if (isCourse(requirement)) {
         if (requirement.requirementName) {
@@ -57,11 +60,11 @@ function Requirement(props) {
                     <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {!requirementInCourses && <CourseTileFromCode department={requirement.department} code={requirement.code}/>}
+                    {!requirementInCourses && <CourseTileFromCode department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>}
                 </AccordionDetails>
             </Accordion>
         } else {
-            return requirementInCourses ? <></> : <CourseTileFromCode department={requirement.department} code={requirement.code}/>
+            return requirementInCourses ? <></> : <CourseTileFromCode department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>
         }
     } else {
         const requirementComplete = checkCompletion(requirement, courses);
@@ -78,9 +81,23 @@ function Requirement(props) {
                 <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:{requirement.nOf && requirement.n && ` ${requirement.n} of:`}{requirement.allOf && " All of:"}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Grid>
-                    {getRequirements(requirement).map(subReq => <Requirement requirement={subReq} courses={courses} />)}
-                </Grid>
+
+                <Droppable droppableId={`sidebar-${requirement.requirementName}`} isDropDisabled={!requirement.dropEnabled} direction="vertical">
+                    {(provided, snapshot) =>
+                        <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        >
+
+                        <Grid>
+                            {getRequirements(requirement).map((subReq,index) => <Requirement requirement={subReq} courses={courses} reqName={requirement.requirementName} index={index} />)}
+                        </Grid>
+
+                        {provided.placeholder}
+
+                        </div>}
+                </Droppable>
+
             </AccordionDetails>
         </Accordion>
     }
@@ -88,24 +105,18 @@ function Requirement(props) {
 
 console.log(CSCI);
 
-export default function PermanentDrawer() {
-const classes = useStyles() 
-  return (
-    <div>
-        <Drawer
-        className = {classes.drawer}
-        variant = "permanent"
-        anchor = "right">
-            <div>
-              
-                {/* <Typography align="center" variant="h6">Classes    List:</Typography>
-                <CourseTile name={"Computer Science I"} desc={"An introduction to computer programming ..."} code={"CSCI1100"}/>
-                <CourseTile name={"Data Structures"} desc={"Programming concepts: functions, parameter passing, ..."} code={"CSCI1200"}/>
-                <CourseTile name={"Calculus 1"} desc={"Functions, limits, continuity, derivatives, ..."} code={"MATH1010"}/>
-                <CourseTile name={"Calculus 2"} desc={"Techniques and applications of integration, polar coordinates."} code={"MATH1020"}/> */}
-                <Requirement requirement={CSCI} courses={[{department: "CSCI", code: "1200"}, {department: "CSCI", code: "4020"}, {department: "CSCI", code: "4030"}, {department: "CSCI", code: "4040"}, {department: "CSCI", code: "4440"}]} />
-            </div>
-        </Drawer>
-    </div>
-  );
+export default function PermanentDrawer(props) {
+    const classes = useStyles() 
+    return (
+        <div>
+            <Drawer
+            className = {classes.drawer}
+            variant = "permanent"
+            anchor = "right">
+                <div>
+                    <Requirement requirement={CSCI} courses={props.courses} />
+                </div>
+            </Drawer>
+        </div>
+    );
 }

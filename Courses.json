@@ -1,0 +1,851 @@
+{
+    "CSCI": {
+        "1100": {
+            "name": "Computer Science I",
+            "desc": "An introduction to computer programming ...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true,
+                "springOdd": true,
+                "springEven": true,
+                "summerEven": true,
+                "summerOdd": true
+            },
+            "prereqs":{
+            }
+        },
+        "1190": {
+            "name": "Beginning Programming for Engineers",
+            "desc": "Elementary coding in MATLAB environment...",
+            "credits": 1,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+            }
+        },
+        "1200": {
+            "name": "Data Structures",
+            "desc": "Programming concepts: functions, parameter passing, ...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "1100"
+                    }
+                ]
+            }
+        },
+        "2200": {
+            "name": "Foundations of Computer Science",
+            "desc": "Introduction of mathematical theory applied to computer science...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "1200"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "MATH",
+                                "code": "1010"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "1500"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "1020"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "2010"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "2300": {
+            "name": "Introduction to Algorithms",
+            "desc": "Application of applying mathematical theory into algorithms for computer science...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "1200"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "MATH",
+                                "code": "1010"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "1500"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "1020"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "2010"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "2500": {
+            "name": "Computer Organization",
+            "desc": "Introduction to computer organization and operating systems...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "1200"
+                    }
+                ]
+            }
+        },
+        "2600": {
+            "name": "Principles of Software",
+            "desc": "The study of software design, implementation, and testing...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true,
+                "summerEven": true,
+                "summerOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "1200"
+                    },
+                    {
+                        "department": "CSCI",
+                        "code": "2200"
+                    }
+                ]
+            }
+        },
+        "4020": {
+            "name": "Design and Analysis of Algorithms",
+            "desc": "Fundamental ideas and techniques for modern algorithms...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    }
+                ]
+            }
+        },
+        "4030": {
+            "name": "Randomized Algorithms",
+            "desc": "Study of contemporary algorithm design...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "4020"
+                    }
+                ]
+            }
+        },
+        "4040": {
+            "name": "Approximation Algorithms",
+            "desc": "Study of algorithms with reducable and proveable guarentees to simplify problems...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "4020"
+                    }
+                ]
+            }
+        },
+        "4100": {
+            "name": "Machine Learning From Data",
+            "desc": "Introduction to theory, algorithms, and applications for machine learning...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "4020"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4030"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4040"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "4090"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "4110": {
+            "name": "Computational Social Processes",
+            "desc": "Introduction to the computational and algorithmic aspects of social processes...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "4020"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4030"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4040"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "4090"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "4120": {
+            "name": "Computational Finance",
+            "desc": "Introduction to computational and mathematical techniques for practical financial applications...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "4020"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4030"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4040"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "4090"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "4150": {
+            "name": "Introduction to Artificial Intelligence",
+            "desc": "Topics and techniques concerning artificial intelligence...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    }
+                ]
+            }
+        },
+        "4210": {
+            "name": "Operating Systems",
+            "desc": "Discussion of various computer operating system's design and implementation...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true,
+                "summerEven": true,
+                "summerOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "2500"
+                            },
+                            {
+                                "department": "ECSE",
+                                "code": "2660"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "4220": {
+            "name": "Network Programming",
+            "desc": "Programming with an overview of the principles of computer networks...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "4210"
+                    }
+                ]
+            }
+        },
+        "4230": {
+            "name": "Cryptography and Network Security I",
+            "desc": "Topics on number theory, basic cryptography, and protocol security...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true,
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    }
+                ]
+            }
+        },
+        "4250": {
+            "name": "Frontiers of Network Science",
+            "desc": "Introduction to network science and review of current research...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "4020"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4260"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4800"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "4100"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "4210"
+                            },
+                            {
+                                "department": "MATH",
+                                "code": "4800"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        },
+        "4260": {
+            "name": "Graph Theory",
+            "desc": "Fundamental concepts and methods of graph theory...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "1100"
+                    },
+                    {
+                        "department": "CSCI",
+                        "code": "2200"
+                    }
+                ]
+            }
+        },
+        "4270": {
+            "name": "Computational Vision",
+            "desc": "Introduce problems, challenges, and applications of computer vision...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "department": "MATH",
+                        "code": "2010"
+                    }
+                ]
+            }
+        },
+        "4310": {
+            "name": "Networking in the Linux Kernel",
+            "desc": "Introduces linux kernel basics...",
+            "credits": 4,
+            "semesters":{
+                "fallOdd": true
+            },
+            "prereqs":{
+                "nOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "4210"
+                    },
+                    {
+                        "department": "ECSE",
+                        "code": "2660"
+                    }
+                ],
+                "n": 1
+            }
+        },
+        "4320": {
+            "name": "Parallel Programming",
+            "desc": "Introduction for techniques and methods for parallel programming...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "CSCI",
+                        "code": "2300"
+                    },
+                    {
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "2500"
+                            },
+                            {
+                                "department": "ECSE",
+                                "code": "2660"
+                            }
+                        ],
+                        "n": 1
+                    }
+                ]
+            }
+        }
+    },
+    "MATH": {
+        "1010": {
+            "name": "Calculus I",
+            "desc": "Functions, limits, derivatives, related rates, and more...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+            }
+        },
+        "1020": {
+            "name": "Calculus II",
+            "desc": "Polar coordinates, parametric equations, infinite sequences, and more...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "1010"
+                    }
+                ]
+            }
+        },
+        "1500": {
+            "name": "Calculus for Architecture, Management, and HASS",
+            "desc": "Basic concepts of calculus...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true
+            },
+            "prereqs":{
+            }
+        },
+        "2010": {
+            "name": "Multivariable Calculus and Matrix Algebra",
+            "desc": "Directional derivatives, maxima and minima, double integrals...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "1020"
+                    }
+                ]
+            }
+        },
+        "4090": {
+            "name": "Foundation of Analysis",
+            "desc": "Development of theorum-proving skills and analysis of mathematics...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "2010"
+                    }
+                ]
+            }
+        },
+        "4100": {
+            "name": "Linear Algebra",
+            "desc": "Theory of underlying vector spaces, bases, linear transformations, and more...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "2010"
+                    }
+                ]
+            }
+        },
+        "4210": {
+            "name": "Mathematical Analysis",
+            "desc": "Fundamental concepts of analysis with real number system, limits, sequences, and more...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "4200"
+                    }
+                ]
+            }
+        },
+        "4800": {
+            "name": "Numerical Computing",
+            "desc": "Survey of numerical methods and their application into engineering and science...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "2010"
+                    },
+                    {
+                        "department": "MATH",
+                        "code": "2400"
+                    }
+                ]
+            }
+        }
+    },
+    "PSYC": {
+        "1200": {
+            "name": "General Psychology",
+            "desc": "An introduction to psychology...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true,
+                "summerEven": true,
+                "summerOdd": true
+            },
+            "prereqs":{
+            }
+        },
+        "2100": {
+            "name": "Critical Thinking",
+            "desc": "Provide tools for identification, analysis, and evaluation of osychological reasoning...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+            }
+        },
+        "2120": {
+            "name": "Introduction to Cognitive Science",
+            "desc": "Introduction to cognitive science...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+            }
+        },
+        "2220": {
+            "name": "Human Factors in Design",
+            "desc": "Discuss theories and principles of human performance...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "PSYC",
+                        "code": "1200"
+                    }
+                ]
+            }
+        },
+        "2310": {
+            "name": "Research Methods and Statistics I",
+            "desc": "Introduction to basic methods for behavioral and social psychology...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "PSYC",
+                        "code": "1200"
+                    }
+                ]
+            }
+        },
+        "2600": {
+            "name": "Moral Development",
+            "desc": "Analysis of psychological research and morality...",
+            "credits": 4,
+            "semesters":{
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+            }
+        },
+        "2730": {
+            "name": "Social Psychology",
+            "desc": "Discussion of theories, methods, and reserach influencing social behavior...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "PSYC",
+                        "code": "1200"
+                    }
+                ]
+            }
+        },
+        "2800": {
+            "name": "Introduction to Sports Psychology",
+            "desc": "Introduction to psychology applied to sports...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "PSYC",
+                        "code": "1200"
+                    }
+                ]
+            }
+        },
+        "4110": {
+            "name": "Motivation and Performance",
+            "desc": "Theories concerning biological, psychological, and social motivation...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true,
+                "springOdd": true,
+                "springEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "PSYC",
+                        "code": "1200"
+                    }
+                ]
+            }
+        },
+        "4160": {
+            "name": "Human Factors Seminar",
+            "desc": "Project oriented study of the human factors...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "PSYC",
+                        "code": "2220"
+                    }
+                ]
+            }
+        }
+    }
+}

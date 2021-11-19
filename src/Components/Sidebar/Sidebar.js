@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Drawer, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { cloneDeepWith, some } from 'lodash';
+import { some } from 'lodash';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckIcon from '@material-ui/icons/Check';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';

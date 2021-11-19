@@ -110,8 +110,9 @@ class ScheduleInterface extends Component {
         const last_sem = sched[this.state.schedule.length-1];
 
         var next_term;
-        var next_year = last_sem.year;
+        var next_year;
         if (!semester) {
+            next_year = parseInt(last_sem.year, 10);
             switch(last_sem.term) {
                 case "Fall":
                     next_term = "Spring";
@@ -133,7 +134,7 @@ class ScheduleInterface extends Component {
         
         sched.push({
             term: next_term,
-            year: next_year,
+            year: next_year.toString(),
             courses: []
         });
         this.setState({schedule: sched});
@@ -146,6 +147,13 @@ class ScheduleInterface extends Component {
         var sched = this.state.schedule;
         if (sched.length > 0) {
             const sem_index = (index || sched.length-1);
+
+            // Remove all courses from semester before removing semester itself
+            var this_sem = this.state.schedule[sem_index];
+            for (var i = 0; i < this_sem.courses.length; i++) {
+                this.removeCourse(this_sem, this_sem.courses[i]);
+            }
+
             sched.splice(sem_index, 1);
             this.setState({schedule: sched});
         }
@@ -206,19 +214,24 @@ class ScheduleInterface extends Component {
         const course_terms = draggableId.split('-');
         const source_terms = source.droppableId.split('-');
         const dest_terms = destination.droppableId.split('-');
+        //console.log(source_terms);
+        //console.log(dest_terms);
+        //console.log(course_terms);
         if (source.droppableId === destination.droppableId) {
-      
+            return;
         } else {
-            console.log(source_terms);
-            console.log(dest_terms);
-            console.log(course_terms);
-
             if (dest_terms[0] === "semester") {
+                if (source_terms[0] === "semester") {
+                    this.removeCourse(
+                        {term: source_terms[1], year: source_terms[2]},
+                        {department: course_terms[0], code: course_terms[1]}
+                    );
+                }
                 this.addCourse(
                     {term: dest_terms[1], year: dest_terms[2]},
                     {department: course_terms[0], code: course_terms[1]}
                 );
-            } else if (dest_terms[0] === "sidebar") {
+            } else if (source_terms[0] === "semester" && dest_terms[0] === "sidebar") {
                 this.removeCourse(
                     {term: source_terms[1], year: source_terms[2]},
                     {department: course_terms[0], code: course_terms[1]}

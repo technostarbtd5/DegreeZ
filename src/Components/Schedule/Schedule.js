@@ -5,11 +5,6 @@ import CourseTile from '../Course/CourseTile.js';
 import { Droppable } from "react-beautiful-dnd";
 
 class Schedule extends Component {
-    /*constructor(props) {
-        super(props);
-        this.state = {}
-    }*/
-
     render() {
         const {schedule, allCourses} = this.props;
         return (

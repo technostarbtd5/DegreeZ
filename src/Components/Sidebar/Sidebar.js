@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 function CourseTileFromCode(props) {
     const {department, code, index, reqName} = props;
-    return <CourseTile code={`${department} ${code}`} reqName={reqName} index={index}/>
+    return <CourseTile department={department} code={code} reqName={reqName} index={index}/>
 }
 
 function Requirement(props) {
@@ -105,24 +105,18 @@ function Requirement(props) {
 
 console.log(CSCI);
 
-export default function PermanentDrawer() {
-const classes = useStyles() 
-  return (
-    <div>
-        <Drawer
-        className = {classes.drawer}
-        variant = "permanent"
-        anchor = "right">
-            <div>
-            
-                {/* <Typography align="center" variant="h6">Classes    List:</Typography>
-                <CourseTile name={"Computer Science I"} desc={"An introduction to computer programming ..."} code={"CSCI1100"}/>
-                <CourseTile name={"Data Structures"} desc={"Programming concepts: functions, parameter passing, ..."} code={"CSCI1200"}/>
-                <CourseTile name={"Calculus 1"} desc={"Functions, limits, continuity, derivatives, ..."} code={"MATH1010"}/>
-                <CourseTile name={"Calculus 2"} desc={"Techniques and applications of integration, polar coordinates."} code={"MATH1020"}/> */}
-                <Requirement requirement={CSCI} courses={[{department: "CSCI", code: "1200"}, {department: "CSCI", code: "4020"}, {department: "CSCI", code: "4030"}, {department: "CSCI", code: "4040"}, {department: "CSCI", code: "4440"}]} />
-            </div>
-        </Drawer>
-    </div>
-  );
+export default function PermanentDrawer(props) {
+    const classes = useStyles() 
+    return (
+        <div>
+            <Drawer
+            className = {classes.drawer}
+            variant = "permanent"
+            anchor = "right">
+                <div>
+                    <Requirement requirement={CSCI} courses={props.courses} />
+                </div>
+            </Drawer>
+        </div>
+    );
 }

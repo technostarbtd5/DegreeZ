@@ -30,10 +30,10 @@ class CourseTile extends Component {
     }
 
     render() {
-        const {name, code, desc, classes, reqName, index} = this.props;
+        const {name, department, code, desc, classes, reqName, index} = this.props;
         const {contents_visible} = this.state;
         return (
-            <Draggable key={`${reqName}-${code}`} draggableId={`${reqName}-${code}`} index={index}>
+            <Draggable key={`${department}-${code}-${reqName}`} draggableId={`${department}-${code}-${reqName}`} index={index}>
                 {(provided, snapshot) =>
                     <div
                         ref={provided.innerRef}
@@ -43,7 +43,7 @@ class CourseTile extends Component {
                         
                         <Card className={classes.tile}>
                             <CardContent>
-                                <Typography align="center" variant="h6">{code}</Typography>
+                                <Typography align="center" variant="h6">{`${department} ${code}`}</Typography>
                                 <Typography align="center">{name}</Typography>
                             </CardContent>
                             <Collapse in={contents_visible} timeout="auto" unmountOnExit>

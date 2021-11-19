@@ -9,8 +9,11 @@ import { red, yellow, green } from '@material-ui/core/colors';
 import { checkCompletion, isCourse, getRequirements, getLeaves } from '../../Shared/RequirementHelper';
 import CSCI from "../../Data/CSCI.json";
 
+import { Droppable } from "react-beautiful-dnd";
+
 import { makeStyles, Typography } from '@material-ui/core';
 import CourseTile from '../Course/CourseTile';
+
 const drawerWidth = 480
 const useStyles = makeStyles({
     drawer:{
@@ -34,8 +37,8 @@ const useStyles = makeStyles({
 })
 
 function CourseTileFromCode(props) {
-    const {department, code} = props;
-    return <CourseTile code={`${department} ${code}`}/>
+    const {department, code, index, reqName} = props;
+    return <CourseTile code={`${department} ${code}`} reqName={reqName} index={index}/>
 }
 
 function Requirement(props) {
@@ -43,10 +46,10 @@ function Requirement(props) {
     const {requirement, courses} = props;
     const {department, code} = requirement;
     const requirementInCourses = some(courses, {department, code});
-    console.log(requirementInCourses);
+    //console.log(requirementInCourses);
     if (requirementInCourses) {
-        console.log(courses);
-        console.log({department, code});
+        //console.log(courses);
+        //console.log({department, code});
     }
     if (isCourse(requirement)) {
         if (requirement.requirementName) {
@@ -57,11 +60,11 @@ function Requirement(props) {
                     <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {!requirementInCourses && <CourseTileFromCode department={requirement.department} code={requirement.code}/>}
+                    {!requirementInCourses && <CourseTileFromCode department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>}
                 </AccordionDetails>
             </Accordion>
         } else {
-            return requirementInCourses ? <></> : <CourseTileFromCode department={requirement.department} code={requirement.code}/>
+            return requirementInCourses ? <></> : <CourseTileFromCode department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>
         }
     } else {
         const requirementComplete = checkCompletion(requirement, courses);
@@ -78,9 +81,23 @@ function Requirement(props) {
                 <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:{requirement.nOf && requirement.n && ` ${requirement.n} of:`}{requirement.allOf && " All of:"}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Grid>
-                    {getRequirements(requirement).map(subReq => <Requirement requirement={subReq} courses={courses} />)}
-                </Grid>
+
+                <Droppable droppableId={`sidebar-${requirement.requirementName}`} isDropDisabled={!requirement.dropEnabled} direction="vertical">
+                    {(provided, snapshot) =>
+                        <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        >
+
+                        <Grid>
+                            {getRequirements(requirement).map((subReq,index) => <Requirement requirement={subReq} courses={courses} reqName={requirement.requirementName} index={index} />)}
+                        </Grid>
+
+                        {provided.placeholder}
+
+                        </div>}
+                </Droppable>
+
             </AccordionDetails>
         </Accordion>
     }
@@ -97,7 +114,7 @@ const classes = useStyles()
         variant = "permanent"
         anchor = "right">
             <div>
-              
+            
                 {/* <Typography align="center" variant="h6">Classes    List:</Typography>
                 <CourseTile name={"Computer Science I"} desc={"An introduction to computer programming ..."} code={"CSCI1100"}/>
                 <CourseTile name={"Data Structures"} desc={"Programming concepts: functions, parameter passing, ..."} code={"CSCI1200"}/>

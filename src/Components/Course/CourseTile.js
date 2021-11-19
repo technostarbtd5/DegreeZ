@@ -3,6 +3,7 @@ import {Card, CardContent, CardActions, IconButton, Typography, Collapse} from '
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { withStyles } from '@material-ui/core/styles';
+import { Draggable } from "react-beautiful-dnd";
 
 const styles = theme => ({
     centered: {
@@ -29,26 +30,38 @@ class CourseTile extends Component {
     }
 
     render() {
-        const {name, code, desc, classes} = this.props;
+        const {name, code, desc, classes, reqName, index} = this.props;
         const {contents_visible} = this.state;
         return (
-            <Card className={classes.tile}>
-                <CardContent>
-                    <Typography align="center" variant="h6">{code}</Typography>
-                    <Typography align="center">{name}</Typography>
-                </CardContent>
-                <Collapse in={contents_visible} timeout="auto" unmountOnExit>
-                    <Typography align="center">{desc}</Typography>
-                </Collapse>
-                <CardActions>
-                    <IconButton 
-                        className={classes.centered}
-                        onClick={() => this.setContentsVisible(!contents_visible)}
+            <Draggable key={`${reqName}-${code}`} draggableId={`${reqName}-${code}`} index={index}>
+                {(provided, snapshot) =>
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                     >
-                        {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    </IconButton>
-                </CardActions>
-            </Card>
+                        
+                        <Card className={classes.tile}>
+                            <CardContent>
+                                <Typography align="center" variant="h6">{code}</Typography>
+                                <Typography align="center">{name}</Typography>
+                            </CardContent>
+                            <Collapse in={contents_visible} timeout="auto" unmountOnExit>
+                                <Typography align="center">{desc}</Typography>
+                            </Collapse>
+                            <CardActions>
+                                <IconButton 
+                                    className={classes.centered}
+                                    onClick={() => this.setContentsVisible(!contents_visible)}
+                                >
+                                    {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                </IconButton>
+                            </CardActions>
+                        </Card>
+
+                    </div>
+                }
+            </Draggable>
         )
     }
 }

@@ -8,48 +8,6 @@ const DUMMY_SCHEDULE = [
         term: "Fall",
         year: "2019",
         courses: [
-            {
-                department: "CSCI",
-                code: "1100",
-            },
-            {
-                department: "CSCI",
-                code: "1200",
-            },
-        ],
-    },
-    {
-        term: "Spring",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Summer",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Fall",
-        year: "2020",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Spring",
-        year: "2021",
-        courses: [
-            
-        ],
-    },
-    {
-        term: "Summer",
-        year: "2021",
-        courses: [
             
         ],
     },

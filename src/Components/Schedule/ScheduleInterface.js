@@ -123,10 +123,10 @@ class ScheduleInterface extends Component {
                         <RemoveScheduleButton removeSchedule={this.removeSchedule}/>
 
                         <button onClick={() => this.saveSchedule()}> SaveSchedule </button>
-                        <button onClick={() => this.addSemester({term:"Summer",year:"2099"})}> AddSemester </button>
-                        <button onClick={() => this.removeSemester({term:"Summer",year:"2099"})}> RemoveSemester </button>
-                        <button onClick={() => this.addCourse({term:"Summer",year:"2099"}, {department: "CSCI", code: "1200"})}> AddCourse </button>
-                        <button onClick={() => this.removeCourse({term:"Summer",year:"2099"}, {department: "CSCI", code: "1200"})}> RemoveCourse </button>
+                        <button onClick={() => this.addSemester()}> AddSemester </button>
+                        <button onClick={() => this.removeSemester()}> RemoveSemester </button>
+                        <button onClick={() => this.addCourse({term:"Fall",year:"2019"}, {department: "CSCI", code: "1200"})}> AddCourse </button>
+                        <button onClick={() => this.removeCourse({term:"Fall",year:"2019"}, {department: "CSCI", code: "1200"})}> RemoveCourse </button>
 
                         <Schedule schedule={this.state.schedule} last_action={this.state.last_action}/>
                     </div>

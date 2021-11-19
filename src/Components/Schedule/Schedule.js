@@ -83,7 +83,40 @@ class Schedule extends Component {
     }
     
     // Attempts to add a semester to the schedule
-    addSemester(semester) {
+    addSemester(semester = null) {
+        var sched = this.state.schedule;
+        const last_sem = sched[this.state.schedule.length-1];
+
+        var next_term;
+        var next_year = last_sem.year;
+        if (!semester) {
+            switch(last_sem.term) {
+                case "Fall":
+                    next_term = "Spring";
+                    next_year++;
+                    break;
+                case "Spring":
+                    next_term = "Summer";
+                    break;
+                case "Summer":
+                    next_term = "Fall";
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            next_term = semester.term;
+            next_year = semester.year;
+        }
+        
+        sched.push({
+            term: next_term,
+            year: next_year,
+            courses: []
+        });
+        this.setState({schedule: sched});
+
+        /*
         const sem_index = this.getSemesterIndex(semester);
         if (sem_index === -1) {
             var sched = this.state.schedule;
@@ -93,17 +126,25 @@ class Schedule extends Component {
                 courses: []
             });
             this.setState({schedule: sched});
-        }
+        }*/
     }
     
     // Attempts to remove a semester from the schedule
-    removeSemester(semester) {
+    removeSemester(semester = null) {
+        var sched = this.state.schedule;
+        if (sched.length > 0) {
+            const sem_index = sched.length-1;
+            sched.splice(sem_index, 1);
+            this.setState({schedule: sched});
+        }
+
+        /*
         const sem_index = this.getSemesterIndex(semester);
         if (sem_index >= 0) {
             var sched = this.state.schedule;
             sched.splice(sem_index, 1);
             this.setState({schedule: sched});
-        }
+        }*/
     }
     
     // Attempts to add a course to a semester

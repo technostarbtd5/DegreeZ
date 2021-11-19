@@ -14,8 +14,12 @@ const styles = theme => ({
           margin: 10,
       }
 });
-
 class CourseTile extends Component {
+
+    /**
+    * Contructor for course object.
+    * @param {props} the details of the course object. Includes department, code, description, semesters, and credits.
+    */
     constructor(props) {
         super(props);
         this.state = {
@@ -24,10 +28,18 @@ class CourseTile extends Component {
         this.setContentsVisible = this.setContentsVisible.bind(this);
     }
 
+    /**
+     * Sets the details of a course object to be visible.
+     * @param {visible} boolean. If true, will display course contents
+     */
     setContentsVisible(visible) {
         this.setState({ contents_visible: visible });
     }
 
+    /**
+     * Definition of a course object.
+     * @returns a formatted display of course contents and the course tile itself. Will include items like course name, code, etc.
+     */
     render() {
         const {name, code, desc, classes} = this.props;
         const {contents_visible} = this.state;

@@ -16,6 +16,11 @@ const styles = theme => ({
       }
 });
 
+/**
+ * CourseTile is an object that holds all relevant information about a class.
+ * This class also holds the rendering of this information in a material UI card 
+ * CourseTiles are draggable between the sidebar and the current schedule. 
+ */
 class CourseTile extends Component {
     constructor(props) {
         super(props);

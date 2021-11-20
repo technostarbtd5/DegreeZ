@@ -1,4 +1,4 @@
-//import { Grid, Typography } from '@material-ui/core';
+
 import React, {Component} from 'react';
 import { DragDropContext } from "react-beautiful-dnd";
 import Schedule from '../Schedule/Schedule.js';
@@ -38,17 +38,32 @@ class ScheduleInterface extends Component {
             takingCourses: []
         }
     }
-
+    
+    /**
+     * Creates a blank schedule
+     * @param {String} major creates an empty schedule with a given major (Currently defaults to CSCI major) 
+     * @modifies {Schedule} Creates a blank schedule 
+     */
     newSchedule(major = null) {
-        var copied_schedule = JSON.parse(JSON.stringify(DUMMY_SCHEDULE)); // Ugly, but it deepcopies DUMMY_SCHEDULE
+        var copied_schedule = JSON.parse(JSON.stringify(DUMMY_SCHEDULE)); 
         this.setState({schedule_loaded: true, schedule: copied_schedule});
     }
-
+    /**
+     * Function to remove the current schedule
+     * @modifies {Schedule} Deletes the current schedule being implemented
+     */
     removeSchedule() {
         this.setState({schedule_loaded: false, schedule: null});
     }
 
-    saveSchedule(Object, FileName, Type) {
+    /**
+     * Function that saves the current schedule into a text format
+     * @param {Schedule} Object Schedule to be saved 
+     * @param {*} FileName Name to be saved under
+     * @param {*} Type Type of file to be saved as
+     * @returns a text file containing the data from schedule, named as FileName
+     */
+    saveSchedule(Object = this.state.schedule, FileName="DegreeZ Schedule", Type=Text) {
         if(!this.state.schedule_loaded){return;}
         
         const JSONSTR = JSON.stringify(Object);
@@ -59,7 +74,10 @@ class ScheduleInterface extends Component {
         a.click();
         URL.revokeObjectURL(a.href);
     }
-
+    /**
+     *Function that loads an existing text file into a schedule.
+     *@modifies {Schedule} 
+     */
     loadSchedule() {
         if(!this.state.schedule_loaded){
             var input = document.createElement('input');
@@ -79,8 +97,12 @@ class ScheduleInterface extends Component {
             input.click();
         }
     }
-    
-    // Given a semester {term:String, year:String}, returns the index of the semester within the schedule
+
+   /**
+    * Helper function to get a semesters index in the schedule. 
+    * @param {term:String, year:String} semester term and year of the semester to be located  
+    * @returns the index of the semester in the current schedule or -1 if not found
+    */
     getSemesterIndex(semester) {
         for (var i = 0; i < this.state.schedule.length; i++) {
             const sem = this.state.schedule[i];
@@ -91,7 +113,12 @@ class ScheduleInterface extends Component {
         return -1;
     }
 
-    // Given a course {department:String, code:String}, returns the index of the course within the list
+    /**
+     * Helper function that given a course and list of courses, finds the index of that course in the list.  
+     * @param {Courses[]} list 
+     * @param {Course} course 
+     * @returns integer of the index of course in list or -1 if not present.
+     **/
     getCourseIndex(list, course) {
         for (var i = 0; i < list.length; i++) {
             const cour = list[i];
@@ -102,7 +129,12 @@ class ScheduleInterface extends Component {
         return -1;
     }
     
-    // Attempts to add a semester to the schedule
+
+    /**
+     * Helper function that adds a semester with the given information or the next possible one.
+     * @param {term:String, year:String} semester signifies which term and year to create in the schedule. If not included create the next possible semester
+     * @modifies the current schedule to include the semester given
+     */
     addSemester(semester = null) {
         if(!this.state.schedule_loaded){return;}
 
@@ -140,7 +172,11 @@ class ScheduleInterface extends Component {
         this.setState({schedule: sched});
     }
     
-    // Attempts to remove a semester from the schedule
+    /**
+     * Removes a given semester or the latest one added from the current schedule
+     * @param {Number} index semester to be removed
+     * @modifies {this.state.scheule} removes semester with index and its associated classes
+     */
     removeSemester(index = null) {
         if(!this.state.schedule_loaded){return;}
 
@@ -159,7 +195,12 @@ class ScheduleInterface extends Component {
         }
     }
     
-    // Attempts to add a course to a semester
+    /**
+     * Helper function to add a course to a schedule
+     * @param {String} semester 
+     * @param {Course} course 
+     * @modifies {this.state.schedule} Adds a class into the schedule at the signified index
+     */
     addCourse(semester, course) {
         if(!this.state.schedule_loaded){return;}
 
@@ -178,7 +219,10 @@ class ScheduleInterface extends Component {
         }
     }
     
-    // Attempts to remove a course from a semester
+        
+    /***  
+    * Given a semester {term:String, year:String}, returns the index of the semester within the schedule
+    */
     removeCourse(semester, course) {
         if(!this.state.schedule_loaded){return;}
 
@@ -201,12 +245,14 @@ class ScheduleInterface extends Component {
     }
 
 
-
+    /**
+     * Function that connects a course being dragged and dropped into a semeser in the schedule or into the sidebar and deleted.
+     * @param {*} result 
+     * @returns 
+     */
     onDragEnd = (result) => {
         const { source, destination, draggableId } = result;
-        console.log(result);
       
-        // dropped outside the list
         if (!destination) {
             return;
         }
@@ -214,9 +260,7 @@ class ScheduleInterface extends Component {
         const course_terms = draggableId.split('-');
         const source_terms = source.droppableId.split('-');
         const dest_terms = destination.droppableId.split('-');
-        //console.log(source_terms);
-        //console.log(dest_terms);
-        //console.log(course_terms);
+
         if (source.droppableId === destination.droppableId) {
             return;
         } else {
@@ -239,7 +283,9 @@ class ScheduleInterface extends Component {
             }
         }
     }
-
+    /**
+     * Rendering function for displaying the schedule and appropriate buttons for functionality
+     */
     render() {
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>

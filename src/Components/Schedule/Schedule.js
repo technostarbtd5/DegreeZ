@@ -4,6 +4,9 @@ import React, {Component} from 'react';
 import CourseTile from '../Course/CourseTile.js';
 import { Droppable } from "react-beautiful-dnd";
 
+/**
+ * Function for rendering and displaying a schedule in the schedule interface.
+ */
 class Schedule extends Component {
     render() {
         const {schedule, allCourses} = this.props;

@@ -13,7 +13,9 @@ import { Droppable } from "react-beautiful-dnd";
 
 import { makeStyles, Typography } from '@material-ui/core';
 import CourseTile from '../Course/CourseTile';
-
+/**
+ * Helper for styling and use of the sidebar for degree requirements and courses.
+ */
 const drawerWidth = 480
 const useStyles = makeStyles({
     drawer:{
@@ -40,7 +42,9 @@ function CourseTileFromCode(props) {
     const {department, code, index, reqName} = props;
     return <CourseTile department={department} code={code} reqName={reqName} index={index}/>
 }
-
+/**
+ * Helper function for displaying degree requirements in the sidebar,
+ */
 function Requirement(props) {
     const classes = useStyles();
     const {requirement, courses} = props;
@@ -104,7 +108,10 @@ function Requirement(props) {
 }
 
 console.log(CSCI);
-
+/**
+ * Function for creating the right drawer or sidebar used to house degree requirements and 
+ * classes to choose from to fill said requirements.
+ */
 export default function PermanentDrawer(props) {
     const classes = useStyles() 
     return (

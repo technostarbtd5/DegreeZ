@@ -3,6 +3,7 @@ import {Card, CardContent, CardActions, IconButton, Typography, Collapse} from '
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { withStyles } from '@material-ui/core/styles';
+import { Draggable } from "react-beautiful-dnd";
 
 const styles = theme => ({
     centered: {
@@ -14,12 +15,14 @@ const styles = theme => ({
           margin: 10,
       }
 });
-class CourseTile extends Component {
 
-    /**
-    * Contructor for course object.
-    * @param {props} the details of the course object. Includes department, code, description, semesters, and credits.
-    */
+/**
+ * CourseTile is an object that holds all relevant information about a class.
+ * Course data read in from Courses.json
+ * This class also holds the rendering of this information in a material UI card 
+ * CourseTiles are draggable between the sidebar and the current schedule. 
+ */
+class CourseTile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,39 +31,43 @@ class CourseTile extends Component {
         this.setContentsVisible = this.setContentsVisible.bind(this);
     }
 
-    /**
-     * Sets the details of a course object to be visible.
-     * @param {visible} boolean. If true, will display course contents
-     */
     setContentsVisible(visible) {
         this.setState({ contents_visible: visible });
     }
 
-    /**
-     * Definition of a course object.
-     * @returns a formatted display of course contents and the course tile itself. Will include items like course name, code, etc.
-     */
     render() {
-        const {name, code, desc, classes} = this.props;
+        const {name, department, code, desc, classes, reqName, index} = this.props;
         const {contents_visible} = this.state;
         return (
-            <Card className={classes.tile}>
-                <CardContent>
-                    <Typography align="center" variant="h6">{code}</Typography>
-                    <Typography align="center">{name}</Typography>
-                </CardContent>
-                <Collapse in={contents_visible} timeout="auto" unmountOnExit>
-                    <Typography align="center">{desc}</Typography>
-                </Collapse>
-                <CardActions>
-                    <IconButton 
-                        className={classes.centered}
-                        onClick={() => this.setContentsVisible(!contents_visible)}
+            <Draggable key={`${department}-${code}-${reqName}`} draggableId={`${department}-${code}-${reqName}`} index={index}>
+                {(provided, snapshot) =>
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                     >
-                        {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    </IconButton>
-                </CardActions>
-            </Card>
+                        
+                        <Card className={classes.tile}>
+                            <CardContent>
+                                <Typography align="center" variant="h6">{`${department} ${code}`}</Typography>
+                                <Typography align="center">{name}</Typography>
+                            </CardContent>
+                            <Collapse in={contents_visible} timeout="auto" unmountOnExit>
+                                <Typography align="center">{desc}</Typography>
+                            </Collapse>
+                            <CardActions>
+                                <IconButton 
+                                    className={classes.centered}
+                                    onClick={() => this.setContentsVisible(!contents_visible)}
+                                >
+                                    {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                </IconButton>
+                            </CardActions>
+                        </Card>
+
+                    </div>
+                }
+            </Draggable>
         )
     }
 }

@@ -3,9 +3,10 @@ import React, {Component} from 'react';
 import { DragDropContext } from "react-beautiful-dnd";
 import Schedule from '../Schedule/Schedule.js';
 import Sidebar from '../Sidebar/Sidebar.js';
+import COURSE_LIST from "../../Data/Courses.json";
 
 
-const DUMMY_SCHEDULE = [
+const EMPTY_SCHEDULE = [
     {
         term: "Fall",
         year: "2019",
@@ -14,19 +15,6 @@ const DUMMY_SCHEDULE = [
         ],
     },
 ]
-
-const DUMMY_COURSE_LIST = {
-    "CSCI": {
-        "1100": {
-            name: "Computer Science I",
-            desc: "An introduction to computer programming ..."
-        },
-        "1200": {
-            name: "Data Structures",
-            desc: "Programming concepts: functions, parameter passing, ..."
-        },
-    },
-}
 
 
 class ScheduleInterface extends Component {
@@ -39,22 +27,26 @@ class ScheduleInterface extends Component {
         }
     }
     
+
     /**
      * Creates a blank schedule
      * @param {String} major creates an empty schedule with a given major (Currently defaults to CSCI major) 
      * @modifies {Schedule} Creates a blank schedule 
      */
     newSchedule(major = null) {
-        var copied_schedule = JSON.parse(JSON.stringify(DUMMY_SCHEDULE)); 
-        this.setState({schedule_loaded: true, schedule: copied_schedule});
+        var copied_schedule = JSON.parse(JSON.stringify(EMPTY_SCHEDULE)); 
+        this.setState({schedule_loaded: true, schedule: copied_schedule, takingCourses: []});
     }
+
+
     /**
      * Function to remove the current schedule
      * @modifies {Schedule} Deletes the current schedule being implemented
      */
     removeSchedule() {
-        this.setState({schedule_loaded: false, schedule: null});
+        this.setState({schedule_loaded: false, schedule: null, takingCourses: []});
     }
+
 
     /**
      * Function that saves the current schedule into a text format
@@ -74,29 +66,41 @@ class ScheduleInterface extends Component {
         a.click();
         URL.revokeObjectURL(a.href);
     }
+
+
     /**
      *Function that loads an existing text file into a schedule.
      *@modifies {Schedule} 
      */
     loadSchedule() {
-        if(!this.state.schedule_loaded){
-            var input = document.createElement('input');
-            input.type = 'file';
+        if(this.state.schedule_loaded){return;}
 
-            input.onchange = e => {
-                var file = e.target.files[0]
-                var reader = new FileReader();
-                reader.readAsText(file, 'UTF-8');
-                reader.onload = readerEvent => {
-                    var content = readerEvent.target.result;
-                    var Loaded_Schedule = JSON.parse(content);
-                    this.setState({schedule_loaded: true, schedule: Loaded_Schedule});
+        var input = document.createElement('input');
+        input.type = 'file';
+
+        input.onchange = e => {
+            var file = e.target.files[0]
+            var reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+            reader.onload = readerEvent => {
+                var content = readerEvent.target.result;
+                var Loaded_Schedule = JSON.parse(content);
+
+                // Generate list of all courses taken so that we can update requirements in sidebar
+                var newTakingCourses = [];
+                for (var i = 0; i < Loaded_Schedule.length; i++) {
+                    for (var g = 0; g < Loaded_Schedule[i].courses.length; g++) {
+                        newTakingCourses.push(Loaded_Schedule[i].courses[g]);
+                    }
                 }
-            }
 
-            input.click();
+                this.setState({schedule_loaded: true, schedule: Loaded_Schedule, takingCourses: newTakingCourses});
+            }
         }
+
+        input.click();
     }
+
 
    /**
     * Helper function to get a semesters index in the schedule. 
@@ -112,6 +116,7 @@ class ScheduleInterface extends Component {
         }
         return -1;
     }
+
 
     /**
      * Helper function that given a course and list of courses, finds the index of that course in the list.  
@@ -172,6 +177,7 @@ class ScheduleInterface extends Component {
         this.setState({schedule: sched});
     }
     
+
     /**
      * Removes a given semester or the latest one added from the current schedule
      * @param {Number} index semester to be removed
@@ -181,7 +187,7 @@ class ScheduleInterface extends Component {
         if(!this.state.schedule_loaded){return;}
 
         var sched = this.state.schedule;
-        if (sched.length > 0) {
+        if (sched.length > 1) {
             const sem_index = (index || sched.length-1);
 
             // Remove all courses from semester before removing semester itself
@@ -195,6 +201,7 @@ class ScheduleInterface extends Component {
         }
     }
     
+
     /**
      * Helper function to add a course to a schedule
      * @param {String} semester 
@@ -283,6 +290,8 @@ class ScheduleInterface extends Component {
             }
         }
     }
+
+
     /**
      * Rendering function for displaying the schedule and appropriate buttons for functionality
      */
@@ -298,7 +307,7 @@ class ScheduleInterface extends Component {
                             <button onClick={() => this.addSemester()}> Add Semester </button>
                             <button onClick={() => this.removeSemester()}> Remove Semester </button>
 
-                            <Schedule schedule={this.state.schedule} allCourses={DUMMY_COURSE_LIST} />
+                            <Schedule schedule={this.state.schedule} allCourses={COURSE_LIST} />
                         </div>
                         : <div>
                             <button onClick={() => this.newSchedule()}> Create Schedule </button>
@@ -307,7 +316,7 @@ class ScheduleInterface extends Component {
                     }
                 </div>
 
-                <Sidebar courses={this.state.takingCourses}/>
+                <Sidebar courses={this.state.takingCourses} allCourses={COURSE_LIST} />
 
             </DragDropContext>
         )

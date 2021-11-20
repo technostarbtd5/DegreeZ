@@ -38,24 +38,19 @@ const useStyles = makeStyles({
 
 })
 
-function CourseTileFromCode(props) {
-    const {department, code, index, reqName} = props;
-    return <CourseTile department={department} code={code} reqName={reqName} index={index}/>
-}
+
 /**
  * Helper function for displaying degree requirements in the sidebar,
  */
 function Requirement(props) {
     const classes = useStyles();
-    const {requirement, courses} = props;
+    const {requirement, courses, allCourses} = props;
     const {department, code} = requirement;
-    const requirementInCourses = some(courses, {department, code});
-    //console.log(requirementInCourses);
-    if (requirementInCourses) {
-        //console.log(courses);
-        //console.log({department, code});
-    }
+
     if (isCourse(requirement)) {
+        const requirementInCourses = some(courses, {department, code});
+        const {name, desc} = allCourses?.[department]?.[code] || {};
+
         if (requirement.requirementName) {
             return <Accordion className = {classes.drawer}>
                 <AccordionSummary
@@ -64,15 +59,17 @@ function Requirement(props) {
                     <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {!requirementInCourses && <CourseTileFromCode department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>}
+                    {!requirementInCourses && <CourseTile name={name} desc={desc} department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>}
                 </AccordionDetails>
             </Accordion>
         } else {
-            return requirementInCourses ? <></> : <CourseTileFromCode department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>
+            return requirementInCourses ? <></> : <CourseTile name={name} desc={desc} department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>
         }
+
     } else {
         const requirementComplete = checkCompletion(requirement, courses);
         const requirementStarted = getLeaves(requirement).filter(course => some(courses, {department: course.department, code: course.code})).length > 0;
+
         return <Accordion className = {classes.drawer}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -86,28 +83,17 @@ function Requirement(props) {
             </AccordionSummary>
             <AccordionDetails>
 
-                <Droppable droppableId={`sidebar-${requirement.requirementName}`} isDropDisabled={!requirement.dropEnabled} direction="vertical">
-                    {(provided, snapshot) =>
-                        <div
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        >
-
-                        <Grid>
-                            {getRequirements(requirement).map((subReq,index) => <Requirement requirement={subReq} courses={courses} reqName={requirement.requirementName} index={index} />)}
-                        </Grid>
-
-                        {provided.placeholder}
-
-                        </div>}
-                </Droppable>
+                <Grid>
+                    {getRequirements(requirement).map((subReq,index) => <Requirement requirement={subReq} courses={courses} allCourses={allCourses} reqName={requirement.requirementName} index={index} />)}
+                </Grid>
 
             </AccordionDetails>
         </Accordion>
+
     }
 }
 
-console.log(CSCI);
+
 /**
  * Function for creating the right drawer or sidebar used to house degree requirements and 
  * classes to choose from to fill said requirements.
@@ -115,15 +101,25 @@ console.log(CSCI);
 export default function PermanentDrawer(props) {
     const classes = useStyles() 
     return (
-        <div>
-            <Drawer
-            className = {classes.drawer}
-            variant = "permanent"
-            anchor = "right">
-                <div>
-                    <Requirement requirement={CSCI} courses={props.courses} />
-                </div>
-            </Drawer>
-        </div>
+        <Drawer
+        className = {classes.drawer}
+        variant = "permanent"
+        anchor = "right">
+
+            <Droppable key={`sidebar`} droppableId={`sidebar`} direction="vertical">
+                {(provided, snapshot) =>
+                    <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    >
+                    
+                    <Requirement requirement={CSCI} courses={props.courses} allCourses={props.allCourses} />
+
+                    {provided.placeholder}
+
+                    </div>}
+            </Droppable>
+
+        </Drawer>
     );
 }

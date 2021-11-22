@@ -551,7 +551,463 @@
                     }
                 ]
             }
-        }
+        },
+		
+		"4340": {
+			"name": "Ontologies",
+			"desc": "Introduction to ontologies, their uses, and an overview of their application in...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					}
+				]
+			}
+		},
+		
+		"4350": {
+			"name": "Data Science",
+			"desc": "Data science is advancing the inductive conduct of science and...",
+			"credits": 3,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "1200"
+					}
+				]
+			}
+		},
+		
+		"4370": {
+			"name": "Data and Society",
+			"desc": "Data and Society provides a broad overview of how society is leveraging and responding...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "4350"
+					}
+				]
+			}
+		},
+		
+		"4380": {
+			"name": "Database Systems",
+			"desc": "Discussion of the state of practice in modern database systems...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					}
+				]
+			}
+		},
+		
+		"4390": {
+			"name": "Data Mining",
+			"desc": "Introductory survey of the main topics in data mining...",
+			"credits": 4,
+			"semesters":{
+				"fallOdd": true,
+				"fallEven": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					}
+				]
+			}
+		},
+		
+		
+		
+		"4400": {
+			"name": "X-informatics",
+			"desc": "Informatics covers a broad range of disciplines addressing challenges...",
+			"credits": 3,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "1200"
+					},
+					{
+						"department": "CSCI",
+						"code": "4960"
+					}
+				]
+			}
+		},
+		
+		"4420": {
+			"name": "Computability and Logic",
+			"desc": "This course covers basic concepts and results in mathematical logic and computability...",
+			"credits": 4,
+			"semesters":{
+				"springOdd": true
+			},
+			"prereqs":{
+				"nOf":[
+					{
+						"department": "CSCI",
+						"code": "2200"
+					},
+					{
+						"department": "PHIL",
+						"code": "2140"
+					}
+				],
+				"n": 1
+			}
+		},
+		
+		"4430": {
+			"name": "Programming Languages",
+			"desc": "A study of the important concepts found in current programming languages...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					},
+					{
+						"department": "CSCI",
+						"code": "2600"
+					}
+				]
+			}
+		},
+		
+		"4440": {
+			"name": "Software Design and Documentation",
+			"desc": "Software system design methodology emphasizing use of object oriented modeling...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					}
+				]
+			}
+		},
+		
+		"4450": {
+			"name": "Principles of Program Analysis",
+			"desc": "Introduce students to program analysis and its many applications...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "4430"
+					}
+				]
+			}
+		},
+		
+		"4460": {
+			"name": "Large-Scale Programming and Testing",
+			"desc": "Software development techniques in support of large-scale software projects...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2600"
+					}
+				]
+			}
+		},
+		
+		"4470": {
+			"name": "Open Source Software",
+			"desc": "Use and develop open source software, create open source repositories, and...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true,
+				"summerEven": true,
+				"summerOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					},
+					{
+						"department": "CSCI",
+						"code": "2600"
+					}
+				]
+			}
+		},
+		
+		"4480": {
+			"name": "Robotics I",
+			"desc": "Design, analysis, control, and implementation of robotic systems...",
+			"credits": 3,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "MATH",
+						"code": "2400"
+					}
+				]
+			}
+		},
+		
+		"4500": {
+			"name": "Distributed Computing Over The Internet",
+			"desc": "Theoretical foundations of programming concurrent, distributed, and mobile computing systems...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "4430"
+					},
+					{
+                        "nOf":[
+                            {
+                                "department": "CSCI",
+                                "code": "4210"
+                            },
+                            {
+                                "department": "CSCI",
+                                "code": "4220"
+                            }
+                        ],
+                        "n": 1
+					}
+				]
+			}
+		},
+		
+		"4510": {
+			"name": "Distributed Systems and Algorithms",
+			"desc": "Principles of distributed systems, emphasizing fundamental issues underlying...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "4210"
+					}
+				]
+			}
+		},
+		
+		"4530": {
+			"name": "Advanced Computer Graphics",
+			"desc": "Classic papers and current research in computer graphics...",
+			"credits": 4,
+			"semesters":{
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					},
+					{
+						"department": "CSCI",
+						"code": "2600"
+					}
+				]
+			}
+		},
+		
+		"4540": {
+			"name": "Game Development II",
+			"desc": "Students work in interdisciplinary teams to create one large-scale 3D game...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "GSAS",
+						"code": "4520"
+					}
+				]
+			}
+		},
+		
+		"4550": {
+			"name": "Interactive Visualization",
+			"desc": "Introduce students to methods of visualizing many different types of data...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "2300"
+					},
+					{
+						"department": "CSCI",
+						"code": "2660"
+					}
+				]
+			}
+		},
+		
+		"4600": {
+			"name": "Data Analytics",
+			"desc": "Data and information analytics extends analysis by using...",
+			"credits": 3,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "4350"
+					}
+				]
+			}
+		},
+		
+		"4700": {
+			"name": "Technical Writing and Communication in Computer Science",
+			"desc": "Provide a computational pespective on one or more topics chosen from theory and algorithms...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"nOf":[
+					{
+						"department": "CSCI",
+						"code": "2200"
+					},
+					{
+						"department": "CSCI",
+						"code": "2300"
+					},
+					{
+						"department": "CSCI",
+						"code": "2600"
+					}
+				],
+				"n": 1
+			}
+		},
+		
+		"4800": {
+			"name": "Numerical Computing",
+			"desc": "A survey of numerical methods for scientific and engineering problems...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "MATH",
+						"code": "2010"
+					},
+					{
+						"department": "MATH",
+						"code": "2400"
+					}
+				]
+			}
+		},
+		
+		"4820": {
+			"name": "Introduction to Numerical Methods for Differential Equations",
+			"desc": "Derivation, analysis, and use of computational procedures for solving differential equations...",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "CSCI",
+						"code": "4800"
+					}
+				]
+			}
+		}
+		
     },
     "MATH": {
         "1010": {
@@ -616,6 +1072,27 @@
                 ]
             }
         },
+		
+		"2400": {
+			"name": "Introduction to Differential Equations",
+			"desc": "First-order differential equations, second-order linear equations, ...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "MATH",
+						"code": "1020"
+					}
+				]
+			}
+		},
+		
         "4090": {
             "name": "Foundation of Analysis",
             "desc": "Development of theorum-proving skills and analysis of mathematics...",
@@ -847,5 +1324,145 @@
                 ]
             }
         }
-    }
+    },
+	"PHIL": {
+		"2140": {
+			"name": "Introduction to Logic",
+			"desc": "Introduction to first-order logic...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+			}
+		}
+	},
+	"GSAS": {
+	
+		"2510": {
+			"name": "Introduction to Game Design",
+			"desc": "The mathematics of game theory from a psychological perspective...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+			}
+		},	
+
+		"2540": {
+			"name": "Introduction to Game Programming",
+			"desc": "This hands-on class introduces many fundamental concepts in game development...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+			}
+		},
+
+		"4520": {
+			"name": "Game Development I",
+			"desc": "Students will closely follow the actual game development cycle...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "GSAS",
+						"code": "2510"
+					},
+					{
+						"department": "GSAS",
+						"code": "2540"
+					}
+				]
+			}
+		}
+	},
+	
+	"BIOL": {
+		"1010": {
+			"name": "Introduction to Biology",
+			"desc": "Introduction to biological systems...",
+			"credits": 3,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true,
+				"summerEven": true,
+				"summerOdd": true
+			},
+			"prereqs":{
+				"allOf":[
+					{
+						"department": "BIOL",
+						"code": "1015"
+					}
+				]
+			}
+		},
+		
+		"1015": {
+			"name": "Introduction to Biology Laboratory",
+			"desc": "Learn about biology through hands-on, project-based lab activities...",
+			"credits": 1,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true,
+				"summerEven": true,
+				"summerOdd": true
+			},
+			"prereqs":{
+			}
+		}
+	
+	},
+	
+	"CHEM":{
+		"1100": {
+			"name": "Chemistry I",
+			"desc": "Principles of chemistry...",
+			"credits": 4,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true,
+				"summerEven": true,
+				"summerOdd": true
+			},
+			"prereqs":{
+			}
+		},
+		
+		"1110": {
+			"name": "Chemistry I with Advanced Lab",
+			"desc": "The same lecture material as CHEM 1100, but laboratory experiments will be more technique-oriented...",
+			"credits": 4,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+			}
+		}
+	
+	}
+	
+	
 }
+

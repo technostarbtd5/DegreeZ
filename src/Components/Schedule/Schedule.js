@@ -23,6 +23,8 @@ function isValidSemester(semester, courseData) {
                 return courseData?.semesters?.springOdd || courseData?.semesters?.spring;
             case "Summer":
                 return courseData?.semesters?.summerOdd || courseData?.semesters?.summer;
+            default:
+                return false;
         }
     } else {
         switch (semester.term) {
@@ -32,6 +34,8 @@ function isValidSemester(semester, courseData) {
                 return courseData?.semesters?.springEven || courseData?.semesters?.spring;
             case "Summer":
                 return courseData?.semesters?.summerEven || courseData?.semesters?.summer;
+            default:
+                return false;
         }
     }
 }

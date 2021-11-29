@@ -9,11 +9,11 @@ const styles = theme => ({
     centered: {
         marginLeft: 'auto',
         marginRight: 'auto',
-      },
-      tile: {
-          width: 180,
-          margin: 10,
-      }
+    },
+    tile: {
+        width: 240,
+        margin: 10,
+    }
 });
 
 /**
@@ -36,8 +36,32 @@ class CourseTile extends Component {
     }
 
     render() {
-        const {name, department, code, desc, classes, reqName, index} = this.props;
+        const {courseData, department, code, index, reqName, classes} = this.props;
+        const {name, desc, credits, semesters, prereqs} = courseData;
         const {contents_visible} = this.state;
+
+        var offered_semesters = "";
+        if (!!semesters) {
+            const semester_list = ["Fall", "Spring", "Summer"];
+            for (var i = 0; i < semester_list.length; i++) {
+                var lower_sem = semester_list[i].toLowerCase();
+                var even_sem = lower_sem + "Even";
+                var odd_sem = lower_sem + "Odd";
+                if(!!semesters[even_sem] && !!semesters[odd_sem]) {
+                    offered_semesters = offered_semesters.concat('', semester_list[i] + ", ");
+                } else {
+                    if(!!semesters[even_sem]){
+                        offered_semesters = offered_semesters.concat('', semester_list[i] + " (even years), ");
+                    }else if(!!semesters[odd_sem]) {
+                        offered_semesters = offered_semesters.concat('', semester_list[i] + " (odd years), ");
+                    }
+                }
+            }
+            if(offered_semesters.length > 0){
+                offered_semesters = offered_semesters.substr(0, offered_semesters.length-2);
+            }
+        }
+
         return (
             <Draggable key={`${department}-${code}-${reqName}`} draggableId={`${department}-${code}-${reqName}`} index={index}>
                 {(provided, snapshot) =>
@@ -53,7 +77,11 @@ class CourseTile extends Component {
                                 <Typography align="center">{name}</Typography>
                             </CardContent>
                             <Collapse in={contents_visible} timeout="auto" unmountOnExit>
-                                <Typography align="center">{desc}</Typography>
+                                <Typography align="center">{!!desc ? desc : "???"}</Typography>
+                                <br></br>
+                                <Typography align="center">When Offered: {!!semesters ? offered_semesters : "???"}</Typography>
+                                <br></br>
+                                <Typography align="center">Credit Hours: {!!credits ? credits : "???"}</Typography>
                             </Collapse>
                             <CardActions>
                                 <IconButton 

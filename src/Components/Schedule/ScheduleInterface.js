@@ -253,7 +253,7 @@ class ScheduleInterface extends Component {
 
 
     /**
-     * Function that connects a course being dragged and dropped into a semeser in the schedule or into the sidebar and deleted.
+     * Function that connects a course being dragged and dropped into a semester in the schedule or into the sidebar and deleted.
      * @param {*} result 
      * @returns 
      */

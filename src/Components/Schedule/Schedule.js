@@ -30,9 +30,9 @@ class Schedule extends Component {
                                     <Grid container justifyContent="space-evenly">
                                         {semester.courses?.map((course, index) => {
                                             const {department, code} = course;
-                                            const {name, desc} = allCourses?.[department]?.[code] || {};
+                                            const courseData = allCourses?.[department]?.[code] || {};
                                             return <Grid item>
-                                                <CourseTile name={name} desc={desc} department={department} code={code} index={index}/>
+                                                <CourseTile courseData={courseData} department={department} code={code} index={index}/>
                                             </Grid>
                                         })}
                                     </Grid>

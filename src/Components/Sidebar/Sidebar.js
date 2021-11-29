@@ -20,11 +20,9 @@ const drawerWidth = 480
 const useStyles = makeStyles({
     drawer:{
         width: drawerWidth
-
     },
     drawerPaper:{
         width: drawerWidth
-
     },
     iconNotStarted: {
         color: red[700]
@@ -49,21 +47,21 @@ function Requirement(props) {
 
     if (isCourse(requirement)) {
         const requirementInCourses = some(courses, {department, code});
-        const {name, desc} = allCourses?.[department]?.[code] || {};
+        const courseData = allCourses?.[department]?.[code] || {};
 
         if (requirement.requirementName) {
-            return <Accordion className = {classes.drawer}>
+            return <Accordion className = {classes.drawerPaper}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                 >
                     <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {!requirementInCourses && <CourseTile name={name} desc={desc} department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>}
+                    {!requirementInCourses && <CourseTile courseData={courseData} department={requirement.department} code={requirement.code} index={props.index} reqName={props.reqName}/>}
                 </AccordionDetails>
             </Accordion>
         } else {
-            return requirementInCourses ? <></> : <CourseTile name={name} desc={desc} department={requirement.department} code={requirement.code} reqName={props.reqName} index={props.index}/>
+            return requirementInCourses ? <></> : <CourseTile courseData={courseData} department={requirement.department} code={requirement.code} index={props.index} reqName={props.reqName}/>
         }
 
     } else {

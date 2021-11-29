@@ -206,15 +206,21 @@ class ScheduleInterface extends Component {
      * Helper function to add a course to a schedule
      * @param {String} semester 
      * @param {Course} course 
+     * @param {Number} index optional index to place course in, defaults to end of semester
      * @modifies {this.state.schedule} Adds a class into the schedule at the signified index
      */
-    addCourse(semester, course) {
+    addCourse(semester, course, index = null) {
         if(!this.state.schedule_loaded){return;}
 
         const sem_index = this.getSemesterIndex(semester);
         if (sem_index >= 0) {
             var sched = this.state.schedule;
-            sched[sem_index].courses.push(course);
+
+            if (index == null) {
+                index = sched[sem_index].courses.length;
+            }
+            sched[sem_index].courses.splice(index, 0, course);
+            
             this.setState({schedule: sched});
 
             // Update list of all courses we are taking
@@ -227,9 +233,12 @@ class ScheduleInterface extends Component {
     }
     
         
-    /***  
-    * Given a semester {term:String, year:String}, returns the index of the semester within the schedule
-    */
+    /**
+     * Helper function to remove a course from a semester
+     * @param {String} semester 
+     * @param {Course} course 
+     * @modifies {this.state.schedule} Removes a class from the schedule at the signified index
+     */
     removeCourse(semester, course) {
         if(!this.state.schedule_loaded){return;}
 
@@ -260,7 +269,7 @@ class ScheduleInterface extends Component {
     onDragEnd = (result) => {
         const { source, destination, draggableId } = result;
       
-        if (!destination) {
+        if (!draggableId || !source || !destination) {
             return;
         }
       
@@ -268,26 +277,23 @@ class ScheduleInterface extends Component {
         const source_terms = source.droppableId.split('-');
         const dest_terms = destination.droppableId.split('-');
 
-        if (source.droppableId === destination.droppableId) {
-            return;
-        } else {
-            if (dest_terms[0] === "semester") {
-                if (source_terms[0] === "semester") {
-                    this.removeCourse(
-                        {term: source_terms[1], year: source_terms[2]},
-                        {department: course_terms[0], code: course_terms[1]}
-                    );
-                }
-                this.addCourse(
-                    {term: dest_terms[1], year: dest_terms[2]},
-                    {department: course_terms[0], code: course_terms[1]}
-                );
-            } else if (source_terms[0] === "semester" && dest_terms[0] === "sidebar") {
+        if (dest_terms[0] === "semester") {
+            if (source_terms[0] === "semester") {
                 this.removeCourse(
                     {term: source_terms[1], year: source_terms[2]},
                     {department: course_terms[0], code: course_terms[1]}
                 );
             }
+            this.addCourse(
+                {term: dest_terms[1], year: dest_terms[2]},
+                {department: course_terms[0], code: course_terms[1]},
+                destination.index
+            );
+        } else if (source_terms[0] === "semester" && dest_terms[0] === "sidebar") {
+            this.removeCourse(
+                {term: source_terms[1], year: source_terms[2]},
+                {department: course_terms[0], code: course_terms[1]}
+            );
         }
     }
 

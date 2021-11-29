@@ -42,7 +42,8 @@
                 "allOf":[
                     {
                         "department": "CSCI",
-                        "code": "1100"
+                        "code": "1100",
+                        "optional": true
                     }
                 ]
             }
@@ -1404,7 +1405,7 @@
 				"summerEven": true,
 				"summerOdd": true
 			},
-			"prereqs":{
+			"coreqs":{
 				"allOf":[
 					{
 						"department": "BIOL",
@@ -1426,7 +1427,13 @@
 				"summerEven": true,
 				"summerOdd": true
 			},
-			"prereqs":{
+			"coreqs":{
+				"allOf":[
+					{
+						"department": "BIOL",
+						"code": "1010"
+					}
+				]
 			}
 		}
 	

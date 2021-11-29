@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {Card, CardContent, CardActions, IconButton, Typography, Collapse} from '@material-ui/core';
+import {Card, CardContent, CardActions, IconButton, Typography, Collapse, Tooltip} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { withStyles } from '@material-ui/core/styles';
 import { Draggable } from "react-beautiful-dnd";
+import { red } from '@material-ui/core/colors';
+import clsx from  'clsx';
+import { requirementToStringArray } from '../../Shared/RequirementHelper';
+import { isEqual } from 'lodash';
 
 const styles = theme => ({
     centered: {
@@ -13,6 +17,13 @@ const styles = theme => ({
     tile: {
         width: 240,
         margin: 10,
+    },
+    error: {
+        backgroundColor: red[50],
+        boxShadow: `0 0 5px ${red[700]}`
+    },
+    requirement: {
+        whiteSpace: "pre"
     }
 });
 
@@ -36,9 +47,12 @@ class CourseTile extends Component {
     }
 
     render() {
-        const {courseData, department, code, index, reqName, classes} = this.props;
-        const {name, desc, credits, semesters, prereqs} = courseData;
+        const {courseData, department, code, index, reqName, errorMsg, classes} = this.props;
+        const {name, desc, credits, semesters, prereqs, coreqs} = courseData;
         const {contents_visible} = this.state;
+
+        const prerequisites = !isEqual(prereqs, {}) && prereqs;
+        const corequisites = !isEqual(prereqs, {}) && coreqs;
 
         var offered_semesters = "";
         if (!!semesters) {
@@ -70,28 +84,50 @@ class CourseTile extends Component {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                     >
-                        
-                        <Card className={classes.tile}>
-                            <CardContent>
-                                <Typography align="center" variant="h6">{`${department} ${code}`}</Typography>
-                                <Typography align="center">{name}</Typography>
-                            </CardContent>
-                            <Collapse in={contents_visible} timeout="auto" unmountOnExit>
-                                <Typography align="center">{!!desc ? desc : "???"}</Typography>
-                                <br></br>
-                                <Typography align="center">When Offered: {!!semesters ? offered_semesters : "???"}</Typography>
-                                <br></br>
-                                <Typography align="center">Credit Hours: {!!credits ? credits : "???"}</Typography>
-                            </Collapse>
-                            <CardActions>
-                                <IconButton 
-                                    className={classes.centered}
-                                    onClick={() => this.setContentsVisible(!contents_visible)}
-                                >
-                                    {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                </IconButton>
-                            </CardActions>
-                        </Card>
+                        {
+                            (() => {
+                                const content = <Card className={errorMsg ? clsx(classes.error, classes.tile) : clsx(classes.tile)}>
+                                    <CardContent>
+                                        <Typography align="center" variant="h6">{`${department} ${code}`}</Typography>
+                                        <Typography align="center">{name}</Typography>
+                                    </CardContent>
+                                    <Collapse in={contents_visible} timeout="auto" unmountOnExit>
+                                        <Typography align="center">{!!desc ? desc : "???"}</Typography>
+                                        <br></br>
+                                        <Typography align="center">When Offered: {!!semesters ? offered_semesters : "???"}</Typography>
+                                        <br></br>
+                                        <Typography align="center">Credit Hours: {!!credits ? credits : "???"}</Typography>
+                                        {prerequisites && 
+                                            <>
+                                                <Typography align="center">Prerequisites:</Typography>
+                                                {requirementToStringArray(prerequisites).map(reqString => <Typography className={classes.requirement}>{reqString}</Typography>)}
+                                            </>
+                                        }
+                                        {corequisites && 
+                                            <>
+                                                <Typography align="center">Corequisites:</Typography>
+                                                {requirementToStringArray(corequisites).map(reqString => <Typography className={classes.requirement}>{reqString}</Typography>)}
+                                            </>
+                                        }
+                                    </Collapse>
+                                    <CardActions>
+                                        <IconButton 
+                                            className={classes.centered}
+                                            onClick={() => this.setContentsVisible(!contents_visible)}
+                                        >
+                                            {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                        </IconButton>
+                                    </CardActions>
+                                </Card>
+                                if (errorMsg) {
+                                    return <Tooltip title={errorMsg}>
+                                        {content}
+                                    </Tooltip>
+                                } else {
+                                    return content;
+                                }
+                            })()
+                        }
 
                     </div>
                 }

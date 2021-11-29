@@ -176,3 +176,13 @@ export function getLeaves(requirement) {
 export function isCourse(requirement) {
   return requirement.department && requirement.code;
 }
+
+export function requirementToStringArray(requirement) {
+  if (isCourse(requirement)) {
+    return [`${requirement.requirementName ? `${requirement.requirementName} : ` : ""}${requirement.department} ${requirement.code}${requirement.optional ? " (optional)" : ""}`];
+  } else {
+    return [`${requirement.requirementName ? `${requirement.requirementName}${requirement.optional ? " (optional)" : ""}: ` : ""}${(requirement.nOf && requirement.n) ? `${requirement.n} of:` : ""}${requirement.allOf ? "All of:" : ""}`,
+        ...getRequirements(requirement).map(subreq => requirementToStringArray(subreq).map(reqString => `\t${reqString}`)).flat()
+    ];
+  }
+}

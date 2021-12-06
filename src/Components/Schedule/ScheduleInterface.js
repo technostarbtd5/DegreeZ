@@ -23,7 +23,7 @@ const EMPTY_SCHEDULE = [
  * @param {Object} currentSemester Must have "term" and "year" fields specified.
  * @returns Semester object with just term and year specified
  */
-function nextSemster(currentSemester) {
+function nextSemester(currentSemester) {
     const { term, year } = currentSemester;
     const nextSem = {term, year};
     switch (term) {
@@ -60,7 +60,7 @@ function generateSchedule(startingSemester, numSemesters = 11) {
             year: String(year),
             courses: [],
         });
-        activeSemester = nextSemster(activeSemester);
+        activeSemester = nextSemester(activeSemester);
     }
     return schedule;
 }

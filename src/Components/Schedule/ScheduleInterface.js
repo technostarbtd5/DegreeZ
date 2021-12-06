@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import { DragDropContext } from "react-beautiful-dnd";
+import {Button} from '@material-ui/core';
 import Schedule from '../Schedule/Schedule.js';
 import Sidebar from '../Sidebar/Sidebar.js';
 import COURSE_LIST from "../../Data/Courses.json";
@@ -308,16 +309,20 @@ class ScheduleInterface extends Component {
                 <div className="ScheduleInterface">
                     {this.state.schedule_loaded
                         ? <div>
-                            <button onClick={() => this.removeSchedule()}> Remove Schedule </button>
-                            <button onClick={() => this.saveSchedule()}> Save Schedule </button>
-                            <button onClick={() => this.addSemester()}> Add Semester </button>
-                            <button onClick={() => this.removeSemester()}> Remove Semester </button>
+                            <div className="ScheduleButtonBar">
+                                <Button variant="contained" onClick={() => this.removeSchedule()}> Remove Schedule </Button>
+                                <Button variant="contained" onClick={() => this.saveSchedule()}> Save Schedule </Button>
+                                <Button variant="contained" onClick={() => this.addSemester()}> Add Semester </Button>
+                                <Button variant="contained" onClick={() => this.removeSemester()}> Remove Semester </Button>
+                            </div>
 
                             <Schedule schedule={this.state.schedule} allCourses={COURSE_LIST} />
                         </div>
                         : <div>
-                            <button onClick={() => this.newSchedule()}> Create Schedule </button>
-                            <button onClick={() => this.loadSchedule()}> Load Schedule </button>
+                            <div className="ScheduleButtonBar">
+                                <Button variant="contained" onClick={() => this.newSchedule()}> Create Schedule </Button>
+                                <Button variant="contained" onClick={() => this.loadSchedule()}> Load Schedule </Button>
+                            </div>
                         </div>
                     }
                 </div>

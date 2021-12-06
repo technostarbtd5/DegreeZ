@@ -1468,6 +1468,126 @@
 			}
 		}
 	
+	},
+	
+	"PHYS":{
+		"1010": {
+			"name": "A Passion for Physics",
+			"desc": "A weekly one-hour seminar by physics department faculty members, in which they describe their scientific and research interests, at a level suitable for first-year college students. This course is graded satisfactory/unsatisfactory.",
+			"credits": 1,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+			}
+		},
+        "1050": {
+			"name": "General Physics",
+			"desc": "A one semester calculus-based overview of physics fundamentals with an emphasis on applications. Mechanics, including equilibrium and statics, fluids, oscillations, and waves. Basics of thermodynamics and heat flow. Electrical circuits. Electromagnetic radiation and optics. Recommended for all students who intend to take only one semester of physics. Credit cannot be obtained for both Physics 1050 and Physics 1100.",
+			"credits": 4,
+			"semesters": {
+				"springEven": true,
+				"springOdd": true
+			},
+			"coreqs":{
+                "allOf":[
+					{
+						"department": "MATH",
+						"code": "1010"
+					}
+				]
+			}
+		},
+        "1100": {
+			"name": "Physics I",
+			"desc": "The first semester of a two-semester sequence of interactive courses. Topics include linear and angular kinematics and dynamics, work and energy, momentum and collisions, forces and fields, gravitation, oscillatory motion, waves, sound, and interference.",
+			"credits": 4,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"coreqs":{
+                "allOf":[
+					{
+						"department": "MATH",
+						"code": "1010"
+					}
+				]
+			}
+		},
+        "1150": {
+			"name": "Honors Physics I",
+			"desc": "Introductory physics for students seeking a more intensive experience. Newton’s laws are introduced using differential calculus, with solutions based on integral calculus. Material on fluids, thermodynamics, and special relativity is included. Laboratory exercises are carried out emphasizing measurement uncertainty and clear, concise reporting. Recommended for students intending to major in physics. ",
+			"credits": 4,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"coreqs":{
+                "allOf":[
+					{
+						"department": "MATH",
+						"code": "1010"
+					}
+				]
+			}
+		},
+        "1200": {
+			"name": "Physics II",
+			"desc": "The second semester of the two-semester sequence of interactive courses. Topics include electric and magnetic forces and fields, Gauss’s Law, dc and ac circuits, Ampere’s Law and Faraday’s Law, electromagnetic radiation, physical optics, and quantum physics.",
+			"credits": 4,
+			"semesters": {
+				"fallEven": true,
+				"fallOdd": true,
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+                "allOf":[
+					{
+						"department": "PHYS",
+						"code": "1100"
+					}
+				]
+			},
+			"coreqs":{
+                "allOf":[
+					{
+						"department": "MATH",
+						"code": "1020"
+					}
+				]
+			}
+		},
+        "1250": {
+			"name": "Honors Physics II",
+			"desc": "Introductory physics for students seeking a more intensive experience. Electricity and magnetism is discussed making use of multivariable differentiation and integration. AC and DC circuits. Electromagnetic waves, optics, and selected topics in modern physics. Laboratory exercises are carried out emphasizing measurement uncertainty and clear, concise reporting. Recommended for students intending to major in physics.",
+			"credits": 4,
+			"semesters": {
+				"springEven": true,
+				"springOdd": true
+			},
+			"prereqs":{
+                "allOf":[
+					{
+						"department": "PHYS",
+						"code": "1100"
+					}
+				]
+			},
+			"coreqs":{
+                "allOf":[
+					{
+						"department": "MATH",
+						"code": "1020"
+					}
+				]
+			}
+		}
+        
 	}
 	
 	

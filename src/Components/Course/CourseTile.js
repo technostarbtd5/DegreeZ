@@ -54,13 +54,13 @@ class CourseTile extends Component {
         const prerequisites = !isEqual(prereqs, {}) && prereqs;
         const corequisites = !isEqual(prereqs, {}) && coreqs;
 
-        var offered_semesters = "";
+        let offered_semesters = "";
         if (!!semesters) {
             const semester_list = ["Fall", "Spring", "Summer"];
-            for (var i = 0; i < semester_list.length; i++) {
-                var lower_sem = semester_list[i].toLowerCase();
-                var even_sem = lower_sem + "Even";
-                var odd_sem = lower_sem + "Odd";
+            for (let i = 0; i < semester_list.length; i++) {
+                const lower_sem = semester_list[i].toLowerCase();
+                const even_sem = lower_sem + "Even";
+                const odd_sem = lower_sem + "Odd";
                 if(!!semesters[even_sem] && !!semesters[odd_sem]) {
                     offered_semesters = offered_semesters.concat('', semester_list[i] + ", ");
                 } else {

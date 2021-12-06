@@ -1,5 +1,5 @@
 # DegreeZ
-The EZ Degree Planner
+The EZ Degree Planner. On first installation, run `npm install` and then run `npm start`.
 
 
 

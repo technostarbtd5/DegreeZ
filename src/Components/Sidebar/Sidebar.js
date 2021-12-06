@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
+import { Drawer, Accordion, AccordionSummary, AccordionDetails, Grid, Tooltip } from '@material-ui/core';
 import { some } from 'lodash';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckIcon from '@material-ui/icons/Check';
@@ -72,10 +72,18 @@ function Requirement(props) {
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
-                {requirementComplete ? <CheckIcon className={classes.iconComplete} /> : (
+                {requirementComplete ? 
+                    <Tooltip title="Requirement complete">
+                        <CheckIcon className={classes.iconComplete} />
+                    </Tooltip>
+                 : (
                     requirementStarted ? 
-                    <DonutLargeIcon className={classes.iconInProgress} /> :
-                    <CloseIcon className={classes.iconNotStarted} />
+                    <Tooltip title="Requirement in progress">
+                        <DonutLargeIcon className={classes.iconInProgress} />
+                    </Tooltip> :
+                    <Tooltip title="Requirement not started">
+                        <CloseIcon className={classes.iconNotStarted} />
+                    </Tooltip>
                 )}
                 <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:{requirement.nOf && requirement.n && ` ${requirement.n} of:`}{requirement.allOf && " All of:"}</Typography>
             </AccordionSummary>

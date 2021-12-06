@@ -5,6 +5,20 @@ import CourseTile from '../Course/CourseTile.js';
 import { Droppable } from "react-beautiful-dnd";
 import { checkCompletion } from '../../Shared/RequirementHelper.js';
 import { isEqual } from 'lodash';
+import { withStyles } from '@material-ui/core/styles';
+import { grey } from '@material-ui/core/colors';
+
+const styles = theme => ({
+    semester: {
+        minHeight: 100
+    },
+    semesterText: {
+        padding: 10
+    },
+    noCoursesText: {
+        color: grey[500]
+    }
+});
 
 /**
  * Get whether a course is offered in a semester
@@ -13,8 +27,6 @@ import { isEqual } from 'lodash';
  * @returns truthy if course is offered in this semester, falsy otherwise
  */
 function isValidSemester(semester, courseData) {
-    console.log(semester);
-    console.log(courseData);
     if (semester.year % 2) {
         switch (semester.term) {
             case "Fall":
@@ -55,6 +67,7 @@ function getErrorMessages(schedule, activeSemesterIndex, courseData,  department
     const previousSemestersCourses = schedule.filter((_, index) => index < activeSemesterIndex).map(semester => semester.courses || []).flat();
     const currentSemesterCourses = schedule[activeSemesterIndex]?.courses || [];
     const errorMsg = [];
+    if (schedule[activeSemesterIndex].term == "Transfer Credits") return ""; // Transfer credits should not error!
     if (!isEqual(prereqs, {}) && !checkCompletion(prereqs, previousSemestersCourses)) {
         errorMsg.push("Missing prerequisite(s)!");
     }
@@ -75,45 +88,53 @@ function getErrorMessages(schedule, activeSemesterIndex, courseData,  department
  */
 class Schedule extends Component {
     render() {
-        const {schedule, allCourses} = this.props;
+        const {schedule, allCourses, classes} = this.props;
         return (
             <div className="Schedule">
                 {schedule.map((semester, activeSemesterIndex) => 
-                    <Droppable droppableId={`semester-${semester.term}-${semester.year}`} direction="horizontal">
-                        {(provided, snapshot) =>
-                            <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            >
+                    <div className={classes.semester}>
+                        <Droppable droppableId={`semester-${semester.term}-${semester.year}`} direction="horizontal">
+                            {(provided, snapshot) =>
+                                <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                >
 
-                            <Grid container>
-                                <Grid item xs={2}>
-                                    <Typography variant="h5">
-                                        {semester.term} {semester.year}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={10}>
-                                    <Grid container justifyContent="space-evenly">
-                                        {semester.courses?.map((course, index) => {
-                                            const {department, code} = course;
-                                            const courseData = allCourses?.[department]?.[code] || {};
-                                            return <Grid item>
-                                                <CourseTile courseData={courseData} department={department} code={code} index={index} errorMsg={getErrorMessages(schedule, activeSemesterIndex, courseData, department, code)} />
-                                            </Grid>
-                                        })}
+                                <Grid container alignItems="center">
+                                    <Grid item xs={2}>
+                                        <Typography variant="h5" className={classes.semesterText}>
+                                            {semester.term} {semester.year}
+                                        </Typography>
                                     </Grid>
+                                    <Grid item xs={10}>
+                                        <Grid container justifyContent="space-evenly">
+                                            {semester.courses?.length ? semester.courses?.map((course, index) => {
+                                                const {department, code} = course;
+                                                const courseData = allCourses?.[department]?.[code] || {};
+                                                return <Grid item>
+                                                    <CourseTile courseData={courseData} department={department} code={code} index={index} errorMsg={getErrorMessages(schedule, activeSemesterIndex, courseData, department, code)} />
+                                                </Grid>
+                                            }) :
+                                            <Typography variant="h5" className={classes.noCoursesText}>
+                                                No Courses
+                                            </Typography>
+                                            }
+                                        </Grid>
+                                    </Grid>
+                                    
                                 </Grid>
-                                
-                            </Grid>
 
-                            {provided.placeholder}
-                            
-                        </div>}
-                    </Droppable>
+                                {provided.placeholder}
+                                
+                            </div>}
+                        </Droppable>
+                    </div>
                 )}
             </div>
         )
     }
 }
 
-export default Schedule
+// export default withStyles(styles)(Schedule);
+// export default Schedule;
+export default withStyles(styles)(Schedule);

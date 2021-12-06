@@ -242,7 +242,7 @@ class ScheduleInterface extends Component {
         if(!this.state.schedule_loaded){return;}
 
         const sched = this.state.schedule;
-        if (sched.length > 1) {
+        if (sched.length > 2) {
             const sem_index = (index || sched.length-1);
 
             // Remove all courses from semester before removing semester itself

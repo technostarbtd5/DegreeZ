@@ -85,7 +85,7 @@ function Requirement(props) {
                         <CloseIcon className={classes.iconNotStarted} />
                     </Tooltip>
                 )}
-                <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:{requirement.nOf && requirement.n && ` ${requirement.n} of:`}{requirement.allOf && " All of:"}</Typography>
+                <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:{(requirement.nOf && requirement.n && ` ${requirement.n} of:`) || false}{requirement.allOf && " All of:"}</Typography>
             </AccordionSummary>
             <AccordionDetails>
 
@@ -99,13 +99,21 @@ function Requirement(props) {
     }
 }
 
-
 /**
  * Function for creating the right drawer or sidebar used to house degree requirements and 
  * classes to choose from to fill said requirements.
  */
 export default function PermanentDrawer(props) {
-    const classes = useStyles() 
+    const classes = useStyles();
+    const {courses, allCourses} = props;
+    const freeElectiveRequirement = {
+        "nOf": Object.entries(allCourses)?.map(([department, deptCourses]) => 
+            Object.keys(deptCourses)?.map(code => ({department, code})) ?? []
+        )?.flat() ?? [],
+        "n": 0,
+        "requirementName": "Free Electives",
+        "optional": true,
+    }
     return (
         <Drawer
         className = {classes.drawer}
@@ -119,7 +127,8 @@ export default function PermanentDrawer(props) {
                     ref={provided.innerRef}
                     >
                     
-                    <Requirement requirement={CSCI} courses={props.courses} allCourses={props.allCourses} />
+                    <Requirement requirement={CSCI} courses={courses} allCourses={allCourses} />
+                    <Requirement requirement={freeElectiveRequirement} courses={courses} allCourses={allCourses} />
 
                     {provided.placeholder}
 

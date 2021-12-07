@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import {Card, CardContent, CardActions, IconButton, Typography, Collapse, Tooltip} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { withStyles } from '@material-ui/core/styles';
-import { Draggable } from "react-beautiful-dnd";
 import { red } from '@material-ui/core/colors';
+import { isEqual } from 'lodash';
 import clsx from  'clsx';
 import { requirementToStringArray } from '../../Shared/RequirementHelper';
-import { isEqual } from 'lodash';
+
 
 const styles = theme => ({
     centered: {
@@ -23,7 +24,7 @@ const styles = theme => ({
         boxShadow: `0 0 5px ${red[700]}`
     },
     requirement: {
-        whiteSpace: "pre"
+        whiteSpace: 'pre'
     }
 });
 
@@ -37,42 +38,43 @@ class CourseTile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            contents_visible: false
+            contentsVisible: false
         }
         this.setContentsVisible = this.setContentsVisible.bind(this);
     }
 
     setContentsVisible(visible) {
-        this.setState({ contents_visible: visible });
+        this.setState({ contentsVisible: visible });
     }
 
     render() {
         const {courseData, department, code, index, reqName, errorMsg, classes} = this.props;
         const {name, desc, credits, semesters, prereqs, coreqs} = courseData;
-        const {contents_visible} = this.state;
+        const {contentsVisible} = this.state;
 
         const prerequisites = !isEqual(prereqs, {}) && prereqs;
         const corequisites = !isEqual(prereqs, {}) && coreqs;
 
-        let offered_semesters = "";
-        if (!!semesters) {
-            const semester_list = ["Fall", "Spring", "Summer"];
-            for (let i = 0; i < semester_list.length; i++) {
-                const lower_sem = semester_list[i].toLowerCase();
-                const even_sem = lower_sem + "Even";
-                const odd_sem = lower_sem + "Odd";
-                if(!!semesters[even_sem] && !!semesters[odd_sem]) {
-                    offered_semesters = offered_semesters.concat('', semester_list[i] + ", ");
+        // This block of code takes the list of offered semesters and converts it into a readable string
+        let offeredSemesters = '';
+        if(!!semesters) {
+            const semesterList = ['Fall', 'Spring', 'Summer'];
+            for(let i = 0; i < semesterList.length; i++) {
+                const lowerSem = semesterList[i].toLowerCase();
+                const evenSem = lowerSem + 'Even';
+                const oddSem = lowerSem + 'Odd';
+                if(!!semesters[evenSem] && !!semesters[oddSem]) {
+                    offeredSemesters = offeredSemesters.concat('', semesterList[i] + ', ');
                 } else {
-                    if(!!semesters[even_sem]){
-                        offered_semesters = offered_semesters.concat('', semester_list[i] + " (even years), ");
-                    }else if(!!semesters[odd_sem]) {
-                        offered_semesters = offered_semesters.concat('', semester_list[i] + " (odd years), ");
+                    if(!!semesters[evenSem]) {
+                        offeredSemesters = offeredSemesters.concat('', semesterList[i] + ' (even years), ');
+                    } else if(!!semesters[oddSem]) {
+                        offeredSemesters = offeredSemesters.concat('', semesterList[i] + ' (odd years), ');
                     }
                 }
             }
-            if(offered_semesters.length > 0){
-                offered_semesters = offered_semesters.substr(0, offered_semesters.length-2);
+            if(offeredSemesters.length > 0) {
+                offeredSemesters = offeredSemesters.substr(0, offeredSemesters.length-2);
             }
         }
 
@@ -88,24 +90,24 @@ class CourseTile extends Component {
                             (() => {
                                 const content = <Card className={errorMsg ? clsx(classes.error, classes.tile) : clsx(classes.tile)}>
                                     <CardContent>
-                                        <Typography align="center" variant="h6">{`${department} ${code}`}</Typography>
-                                        <Typography align="center">{name}</Typography>
+                                        <Typography align='center' variant='h6'>{`${department} ${code}`}</Typography>
+                                        <Typography align='center'>{name}</Typography>
                                     </CardContent>
-                                    <Collapse in={contents_visible} timeout="auto" unmountOnExit>
-                                        <Typography align="center">{!!desc ? desc : "???"}</Typography>
+                                    <Collapse in={contentsVisible} timeout='auto' unmountOnExit>
+                                        <Typography align='center'>{!!desc ? desc : '???'}</Typography>
                                         <br></br>
-                                        <Typography align="center">When Offered: {!!semesters ? offered_semesters : "???"}</Typography>
+                                        <Typography align='center'>When Offered: {!!semesters ? offeredSemesters : '???'}</Typography>
                                         <br></br>
-                                        <Typography align="center">Credit Hours: {!!credits ? credits : "???"}</Typography>
+                                        <Typography align='center'>Credit Hours: {!!credits ? credits : '???'}</Typography>
                                         {prerequisites && 
                                             <>
-                                                <Typography align="center">Prerequisites:</Typography>
+                                                <Typography align='center'>Prerequisites:</Typography>
                                                 {requirementToStringArray(prerequisites).map(reqString => <Typography className={classes.requirement}>{reqString}</Typography>)}
                                             </>
                                         }
                                         {corequisites && 
                                             <>
-                                                <Typography align="center">Corequisites:</Typography>
+                                                <Typography align='center'>Corequisites:</Typography>
                                                 {requirementToStringArray(corequisites).map(reqString => <Typography className={classes.requirement}>{reqString}</Typography>)}
                                             </>
                                         }
@@ -113,13 +115,13 @@ class CourseTile extends Component {
                                     <CardActions>
                                         <IconButton 
                                             className={classes.centered}
-                                            onClick={() => this.setContentsVisible(!contents_visible)}
+                                            onClick={() => this.setContentsVisible(!contentsVisible)}
                                         >
-                                            {contents_visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                            {contentsVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                                         </IconButton>
                                     </CardActions>
                                 </Card>
-                                if (errorMsg) {
+                                if(errorMsg) {
                                     return <Tooltip title={errorMsg}>
                                         {content}
                                     </Tooltip>
@@ -135,5 +137,6 @@ class CourseTile extends Component {
         )
     }
 }
+
 
 export default withStyles(styles)(CourseTile);

@@ -64,6 +64,10 @@
         {
           "department": "CHEM",
           "code": "1100"
+        },
+        {
+          "department": "PHYS",
+          "code": "1200"
         }
       ],
       "n": 1,

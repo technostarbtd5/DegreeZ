@@ -1007,6 +1007,20 @@
 					}
 				]
 			}
+		},
+		
+		"4941": {
+			"name": "Undergraduate Research Project",
+			"desc": "",
+			"credits": 4,
+			"semesters":{
+				"springEven": true,
+				"springOdd": true,
+				"fallEven": true,
+				"fallOdd": true
+			},
+			"prereqs":{
+			}
 		}
 		
     },
@@ -1093,7 +1107,46 @@
 				]
 			}
 		},
-		
+
+        "4030": {
+			"name": "Computability and Logic",
+			"desc": "This course covers basic concepts and results in mathematical logic and computability...",
+			"credits": 4,
+			"semesters":{
+				"springOdd": true
+			},
+			"prereqs":{
+				"nOf":[
+					{
+						"department": "CSCI",
+						"code": "2200"
+					},
+					{
+						"department": "PHIL",
+						"code": "2140"
+					}
+				],
+				"n": 1
+			}
+		},
+
+        "4040": {
+			"name": "Introduction to Topology",
+			"desc": "Topics include general topological spaces, connectedness, compactness, continuity, and product spaces...",
+			"credits": 4,
+			"semesters":{
+				"fallEven": true
+			},
+			"prereqs":{
+				"allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "4090"
+                    }
+                ]
+			}
+		},
+
         "4090": {
             "name": "Foundation of Analysis",
             "desc": "Development of theorum-proving skills and analysis of mathematics...",
@@ -1166,6 +1219,25 @@
                     {
                         "department": "MATH",
                         "code": "2400"
+                    }
+                ]
+            }
+        }
+    },
+    "MATP": {
+        "4600": {
+            "name": "Probability Theory and Applications",
+            "desc": "Axioms of probability, joint and conditional probability, random variables, probability density...",
+            "credits": 4,
+            "semesters":{
+                "fallEven": true,
+                "fallOdd": true
+            },
+            "prereqs":{
+                "allOf":[
+                    {
+                        "department": "MATH",
+                        "code": "1020"
                     }
                 ]
             }

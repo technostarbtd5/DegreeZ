@@ -1,18 +1,18 @@
 import React from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 import { Drawer, Accordion, AccordionSummary, AccordionDetails, Grid, Tooltip } from '@material-ui/core';
-import { some } from 'lodash';
+import { makeStyles, Typography } from '@material-ui/core';
+import { red, yellow, green } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckIcon from '@material-ui/icons/Check';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import CloseIcon from '@material-ui/icons/Close';
-import { red, yellow, green } from '@material-ui/core/colors';
+import { some } from 'lodash';
 import { checkCompletion, isCourse, getRequirements, getLeaves } from '../../Shared/RequirementHelper';
-import CSCI from "../../Data/CSCI.json";
-
-import { Droppable } from "react-beautiful-dnd";
-
-import { makeStyles, Typography } from '@material-ui/core';
 import CourseTile from '../Course/CourseTile';
+import CSCI from '../../Data/CSCI.json';
+
+
 /**
  * Helper for styling and use of the sidebar for degree requirements and courses.
  */
@@ -45,16 +45,16 @@ function Requirement(props) {
     const {requirement, courses, allCourses} = props;
     const {department, code} = requirement;
 
-    if (isCourse(requirement)) {
+    if(isCourse(requirement)) {
         const requirementInCourses = some(courses, {department, code});
         const courseData = allCourses?.[department]?.[code] || {};
 
-        if (requirement.requirementName) {
+        if(requirement.requirementName) {
             return <Accordion className = {classes.drawerPaper}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                 >
-                    <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:</Typography>
+                    <Typography>{requirement.requirementName}{requirement.optional && ' (optional)'}:</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     {!requirementInCourses && <CourseTile courseData={courseData} department={requirement.department} code={requirement.code} index={props.index} reqName={props.reqName}/>}
@@ -73,24 +73,24 @@ function Requirement(props) {
                 expandIcon={<ExpandMoreIcon />}
             >
                 {requirementComplete ? 
-                    <Tooltip title="Requirement complete">
+                    <Tooltip title='Requirement complete'>
                         <CheckIcon className={classes.iconComplete} />
                     </Tooltip>
                  : (
                     requirementStarted ? 
-                    <Tooltip title="Requirement in progress">
+                    <Tooltip title='Requirement in progress'>
                         <DonutLargeIcon className={classes.iconInProgress} />
                     </Tooltip> :
-                    <Tooltip title="Requirement not started">
+                    <Tooltip title='Requirement not started'>
                         <CloseIcon className={classes.iconNotStarted} />
                     </Tooltip>
                 )}
-                <Typography>{requirement.requirementName}{requirement.optional && " (optional)"}:{(requirement.nOf && requirement.n && ` ${requirement.n} of:`) || false}{requirement.allOf && " All of:"}</Typography>
+                <Typography>{requirement.requirementName}{requirement.optional && ' (optional)'}:{(requirement.nOf && requirement.n && ` ${requirement.n} of:`) || false}{requirement.allOf && ' All of:'}</Typography>
             </AccordionSummary>
             <AccordionDetails>
 
                 <Grid>
-                    {getRequirements(requirement).map((subReq,index) => <Requirement requirement={subReq} courses={courses} allCourses={allCourses} reqName={requirement.requirementName} index={index} />)}
+                    {getRequirements(requirement).map((subReq, index) => <Requirement requirement={subReq} courses={courses} allCourses={allCourses} reqName={requirement.requirementName} index={index} />)}
                 </Grid>
 
             </AccordionDetails>
@@ -98,6 +98,7 @@ function Requirement(props) {
 
     }
 }
+
 
 /**
  * Function for creating the right drawer or sidebar used to house degree requirements and 
@@ -107,20 +108,20 @@ export default function PermanentDrawer(props) {
     const classes = useStyles();
     const {courses, allCourses} = props;
     const freeElectiveRequirement = {
-        "nOf": Object.entries(allCourses)?.map(([department, deptCourses]) => 
+        'nOf': Object.entries(allCourses)?.map(([department, deptCourses]) => 
             Object.keys(deptCourses)?.map(code => ({department, code})) ?? []
         )?.flat() ?? [],
-        "n": 0,
-        "requirementName": "Free Electives",
-        "optional": true,
+        'n': 0,
+        'requirementName': 'Free Electives',
+        'optional': true,
     }
     return (
         <Drawer
         className = {classes.drawer}
-        variant = "permanent"
-        anchor = "right">
+        variant = 'permanent'
+        anchor = 'right'>
 
-            <Droppable key={`sidebar`} droppableId={`sidebar`} direction="vertical">
+            <Droppable key={`sidebar`} droppableId={`sidebar`} direction='vertical'>
                 {(provided, snapshot) =>
                     <div
                     {...provided.droppableProps}

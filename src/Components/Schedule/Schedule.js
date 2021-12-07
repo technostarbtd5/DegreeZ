@@ -1,12 +1,12 @@
-import { Grid, Typography } from '@material-ui/core';
-//import { ViewCarousel } from '@material-ui/icons';
 import React, {Component} from 'react';
-import CourseTile from '../Course/CourseTile.js';
-import { Droppable } from "react-beautiful-dnd";
-import { checkCompletion } from '../../Shared/RequirementHelper.js';
-import { isEqual } from 'lodash';
+import { Droppable } from 'react-beautiful-dnd';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
+import { isEqual } from 'lodash';
+import { checkCompletion } from '../../Shared/RequirementHelper.js';
+import CourseTile from '../Course/CourseTile.js';
+
 
 const styles = theme => ({
     semester: {
@@ -27,24 +27,24 @@ const styles = theme => ({
  * @returns truthy if course is offered in this semester, falsy otherwise
  */
 function isValidSemester(semester, courseData) {
-    if (semester.year % 2) {
-        switch (semester.term) {
-            case "Fall":
+    if(semester.year % 2) {
+        switch(semester.term) {
+            case 'Fall':
                 return courseData?.semesters?.fallOdd || courseData?.semesters?.fall;
-            case "Spring":
+            case 'Spring':
                 return courseData?.semesters?.springOdd || courseData?.semesters?.spring;
-            case "Summer":
+            case 'Summer':
                 return courseData?.semesters?.summerOdd || courseData?.semesters?.summer;
             default:
                 return false;
         }
     } else {
-        switch (semester.term) {
-            case "Fall":
+        switch(semester.term) {
+            case 'Fall':
                 return courseData?.semesters?.fallEven || courseData?.semesters?.fall;
-            case "Spring":
+            case 'Spring':
                 return courseData?.semesters?.springEven || courseData?.semesters?.spring;
-            case "Summer":
+            case 'Summer':
                 return courseData?.semesters?.summerEven || courseData?.semesters?.summer;
             default:
                 return false;
@@ -67,20 +67,22 @@ function getErrorMessages(schedule, activeSemesterIndex, courseData,  department
     const previousSemestersCourses = schedule.filter((_, index) => index < activeSemesterIndex).map(semester => semester.courses || []).flat();
     const currentSemesterCourses = schedule[activeSemesterIndex]?.courses || [];
     const errorMsg = [];
-    if (schedule[activeSemesterIndex].term == "Transfer Credits") return ""; // Transfer credits should not error!
-    if (!isEqual(prereqs, {}) && !checkCompletion(prereqs, previousSemestersCourses)) {
-        errorMsg.push("Missing prerequisite(s)!");
+    if(schedule[activeSemesterIndex].term === 'Transfer Credits') {
+        return ''; // Transfer credits should not error!
     }
-    if (!isEqual(coreqs, {}) && !checkCompletion(coreqs, currentSemesterCourses)) {
-        errorMsg.push("Missing corequisite(s)!");
+    if(!isEqual(prereqs, {}) && !checkCompletion(prereqs, previousSemestersCourses)) {
+        errorMsg.push('Missing prerequisite(s)!');
     }
-    if (errorMsg.length) {
-        errorMsg.push("You may need a requirement override form.");
+    if(!isEqual(coreqs, {}) && !checkCompletion(coreqs, currentSemesterCourses)) {
+        errorMsg.push('Missing corequisite(s)!');
     }
-    if (!isValidSemester(schedule[activeSemesterIndex], courseData)) {
+    if(errorMsg.length) {
+        errorMsg.push('You may need a requirement override form.');
+    }
+    if(!isValidSemester(schedule[activeSemesterIndex], courseData)) {
         errorMsg.push(`${department} ${code} - ${courseData.name} is not normally offered in this semester!`);
     }
-    return errorMsg.join(" ");
+    return errorMsg.join(' ');
 }
 
 /**
@@ -90,24 +92,24 @@ class Schedule extends Component {
     render() {
         const {schedule, allCourses, classes} = this.props;
         return (
-            <div className="Schedule">
+            <div className='Schedule'>
                 {schedule.map((semester, activeSemesterIndex) => 
                     <div className={classes.semester}>
-                        <Droppable droppableId={`semester-${semester.term}-${semester.year}`} direction="horizontal">
+                        <Droppable droppableId={`semester-${semester.term}-${semester.year}`} direction='horizontal'>
                             {(provided, snapshot) =>
                                 <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                                 >
 
-                                <Grid container alignItems="center">
+                                <Grid container alignItems='center'>
                                     <Grid item xs={2}>
-                                        <Typography variant="h5" className={classes.semesterText}>
+                                        <Typography variant='h5' className={classes.semesterText}>
                                             {semester.term} {semester.year}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={10}>
-                                        <Grid container justifyContent="space-evenly">
+                                        <Grid container justifyContent='space-evenly'>
                                             {semester.courses?.length ? semester.courses?.map((course, index) => {
                                                 const {department, code} = course;
                                                 const courseData = allCourses?.[department]?.[code] || {};
@@ -115,7 +117,7 @@ class Schedule extends Component {
                                                     <CourseTile courseData={courseData} department={department} code={code} index={index} errorMsg={getErrorMessages(schedule, activeSemesterIndex, courseData, department, code)} />
                                                 </Grid>
                                             }) :
-                                            <Typography variant="h5" className={classes.noCoursesText}>
+                                            <Typography variant='h5' className={classes.noCoursesText}>
                                                 No Courses
                                             </Typography>
                                             }
@@ -135,6 +137,5 @@ class Schedule extends Component {
     }
 }
 
-// export default withStyles(styles)(Schedule);
-// export default Schedule;
+
 export default withStyles(styles)(Schedule);

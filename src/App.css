@@ -1,36 +1,8 @@
-.course-contents {
-  z-index: 2;
-  position: fixed;
-  background-color: black;
-}
-
-ol.course-contents {
-  text-align: left;
-}
-
-
-.semester {
-  display: flex;
-  width: 100%;
-}
-
-.semester-name {
-  width: 200px;
-  text-align: left;
-}
-
-.semester-courses {
-  display: flex;
-  width: calc(100% - 200px);
-  justify-content: space-evenly;
-}
-
-
-.ScheduleInterface {
+.scheduleInterface {
   width: calc(100% - 480px);
 }
 
-.ScheduleButtonBar {
+.scheduleButtonBar {
   display: flex;
   justify-content: center;
   gap: 10px;
